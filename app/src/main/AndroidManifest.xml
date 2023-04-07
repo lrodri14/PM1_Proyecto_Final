@@ -15,6 +15,9 @@
             android:name=".MenuActivity"
             android:exported="false" />
         <activity
+            android:name=".ConversacionActivity"
+            android:exported="false"/>
+        <activity
             android:name=".LoginMainActivity"
             android:exported="true"
             android:label="@string/app_name"

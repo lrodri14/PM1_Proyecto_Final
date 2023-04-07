@@ -15,6 +15,7 @@ import androidx.core.view.GravityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -39,6 +40,13 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         setContentView(binding.getRoot());
 
         btnCrearGrupo = (FloatingActionButton)findViewById(R.id.fab);
+
+        // Carga el fragmento que contiene la lista de chats
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        ListaChatFragment listChatFragment = new ListaChatFragment();
+        fragmentTransaction.add(R.id.fragment_container, listChatFragment);
+        fragmentTransaction.commit();
 
         btnCrearGrupo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +128,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (fragmentSeleccionado==true){
-            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_secundary,miFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_main,miFragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
