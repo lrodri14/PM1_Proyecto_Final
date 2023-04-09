@@ -24,7 +24,7 @@ public class EditPerfilUser extends Fragment {
         btnCambiarPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CambioContrasenaFragment fragmentEditPerfil = new CambioContrasenaFragment();
+               CambioContrasenaFragment fragmentEditPerfil = new CambioContrasenaFragment();
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment_content_main, fragmentEditPerfil);
                 transaction.addToBackStack(null);
