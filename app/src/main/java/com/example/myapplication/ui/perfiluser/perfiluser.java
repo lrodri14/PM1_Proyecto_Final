@@ -35,6 +35,8 @@ public class perfiluser extends Fragment {
             }
         });
 
+
+
         return view;
     }
 }

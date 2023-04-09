@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPass2" />
+        app:layout_constraintTop_toBottomOf="@+id/txtActualContrasena" />
 
     <ImageButton
         android:id="@+id/btnVerPass3"
@@ -72,7 +72,7 @@
         app:tint="@color/gris_claro" />
 
     <EditText
-        android:id="@+id/txtPass2"
+        android:id="@+id/txtActualContrasena"
         android:layout_width="290dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
@@ -128,7 +128,7 @@
         app:layout_constraintTop_toBottomOf="@+id/logo3" />
 
     <Button
-        android:id="@+id/btnVolverLogin"
+        android:id="@+id/btnVolverPerfil"
         android:layout_width="64dp"
         android:layout_height="49dp"
         android:layout_marginStart="16dp"

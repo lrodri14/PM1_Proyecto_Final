@@ -19,7 +19,7 @@ public class CambioContrasenaLoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cambio_contrasena_login, container, false);
-        btnVolverLogin = view.findViewById(R.id.btnVolverLogin);
+        btnVolverLogin = view.findViewById(R.id.btnVolverPerfil);
         btnCambiarContrasena = view.findViewById(R.id.btnCambiarContrasena);
 
         btnVolverLogin.setOnClickListener(new View.OnClickListener() {

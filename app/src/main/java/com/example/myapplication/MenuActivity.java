@@ -125,7 +125,16 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_perfil) {
             miFragment= new perfiluser();
             fragmentSeleccionado=true;
-        }
+        } else if (id == R.id.nav_lista) {
+            miFragment= new ListaAmigosFragment();
+            fragmentSeleccionado=true;
+        } else if (id == R.id.nav_buscar) {
+            miFragment= new ListaUsuariosFragment();
+            fragmentSeleccionado=true;
+        } else if (id == R.id.nav_noti) {
+            miFragment= new NotificacionFragment();
+            fragmentSeleccionado=true;
+    }
 
         if (fragmentSeleccionado==true){
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_main,miFragment).commit();
