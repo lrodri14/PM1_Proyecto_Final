@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public class CrearGrupoFragment extends DialogFragment {
 
@@ -39,9 +40,14 @@ public class CrearGrupoFragment extends DialogFragment {
                 String nombreGrupo = txtNombreGrupo.getText().toString();
                 // Aquí puedes guardar el nombre del grupo en una base de datos o hacer cualquier otra acción necesaria
                 // ...
-
                 // Cerrar el fragment
                 dismiss();
+                ListaUsuariosGruposFragment fragmenUsuariosGrupos = new ListaUsuariosGruposFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment_content_main, fragmenUsuariosGrupos);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
             }
         });
 
@@ -55,7 +61,7 @@ public class CrearGrupoFragment extends DialogFragment {
         });
 
         // Configurar el tamaño de la ventana modal
-        getDialog().getWindow().setLayout(500, 500);
+        getDialog().getWindow().setLayout(900, 900);
 
         return view;
     }
