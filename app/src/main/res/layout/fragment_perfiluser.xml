@@ -59,6 +59,7 @@
             android:layout_marginTop="24dp"
             android:text="ElsyAmaya01"
             android:textAlignment="center"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtname" />
 
@@ -69,6 +70,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="10dp"
             android:text="pao.amayalazo@gmail.com"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtname" />
 
@@ -89,41 +91,39 @@
             android:id="@+id/txtcarrera"
             android:layout_width="150dp"
             android:layout_height="0dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
             android:text="Carrera"
             android:textAlignment="center"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/txtcumple"
-            app:layout_constraintHorizontal_bias="0.451"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textusername" />
+            app:layout_constraintTop_toBottomOf="@+id/txtcorreo" />
 
         <TextView
             android:id="@+id/txtcumple"
             android:layout_width="150dp"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="24dp"
             android:text="Cumpleaños"
             android:textAlignment="center"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtcorreo" />
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtnamecarrera" />
 
         <TextView
             android:id="@+id/txtnamecarrera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="TextView"
-            app:layout_constraintEnd_toStartOf="@+id/txtfechacumple"
-            app:layout_constraintHorizontal_bias="0.427"
+            android:layout_marginTop="5dp"
+            android:text="Ingeniería en Conputación"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtcarrera" />
 
@@ -131,10 +131,11 @@
             android:id="@+id/txtfechacumple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="68dp"
-            android:text="TextView"
+            android:layout_marginTop="5dp"
+            android:text="01/01/2001"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtcumple" />
 
         <ImageView
