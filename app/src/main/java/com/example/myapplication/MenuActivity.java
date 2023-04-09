@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.myapplication.ui.home.HomeFragment;
 import com.example.myapplication.ui.perfiluser.perfiluser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -121,6 +122,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         boolean fragmentSeleccionado=false;
 
         if (id == R.id.nav_chats) {
+            miFragment= new HomeFragment();
             fragmentSeleccionado=true;
         } else if (id == R.id.nav_perfil) {
             miFragment= new perfiluser();
