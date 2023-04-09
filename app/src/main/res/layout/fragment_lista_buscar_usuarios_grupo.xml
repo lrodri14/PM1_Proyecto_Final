@@ -27,7 +27,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/cancel_text"
+            android:id="@+id/terminar_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -35,7 +35,7 @@
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:text="Cancelar"
+            android:text="Terminar"
             android:textColor="@android:color/holo_blue_dark"
             android:textSize="13sp"
             android:visibility="visible" />

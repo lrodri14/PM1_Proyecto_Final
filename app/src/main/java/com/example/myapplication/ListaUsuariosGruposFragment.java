@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.myapplication.ui.home.HomeFragment;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +22,7 @@ import java.util.List;
 public class ListaUsuariosGruposFragment extends Fragment {
 
     private ListView UserListView;
-    private TextView cancelText;
+    private TextView TerminarText;
 
     private ListaUsuariosCustomAdapter adapter;
     private EditText searchView;
@@ -31,7 +34,17 @@ public class ListaUsuariosGruposFragment extends Fragment {
 
         UserListView = view.findViewById(R.id.user_list);
         searchView = view.findViewById(R.id.search_view_edit_text);
-        cancelText = view.findViewById(R.id.cancel_text);
+        TerminarText = view.findViewById(R.id.terminar_text);
+        TerminarText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeFragment fragmentHome = new HomeFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment_content_main, fragmentHome);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
         /* Listener para el SearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

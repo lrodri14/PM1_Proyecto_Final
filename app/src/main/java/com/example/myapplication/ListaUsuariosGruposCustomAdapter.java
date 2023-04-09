@@ -48,21 +48,7 @@ public class ListaUsuariosGruposCustomAdapter extends ArrayAdapter<Usuario> {
 
         return view;
 
-     //Filtro de Busqueda
-      /*  public void filter(String text) {
-            usuario.clear();
-            if (text.isEmpty()) {
-                users.addAll(originalUsers);
-            } else {
-                text = text.toLowerCase();
-                for (User user : originalUsers) {
-                    if (user.getName().toLowerCase().contains(text) || user.getCareer().toLowerCase().contains(text)) {
-                        users.add(user);
-                    }
-                }
-            }
-            notifyDataSetChanged();
-        }*/
+
 
     }
 
