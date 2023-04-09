@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo_gris_azulado"
+    tools:context=".CambioContrasenaLoginFragment">
+
+    <EditText
+        android:id="@+id/txtPass2"
+        android:layout_width="290dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:fontFamily="@font/asap_medium"
+        android:hint="• • • • • • • •"
+        android:inputType="textPassword"
+        android:textColor="@color/gris_font"
+        android:textColorHint="@color/gris_claro"
+        app:layout_constraintEnd_toStartOf="@+id/btnVerPass"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+    <ImageButton
+        android:id="@+id/btnVerPass5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/fondo_gris_azulado"
+        android:scaleType="fitCenter"
+        android:src="@drawable/baseline_remove_red_eye_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView28"
+        app:tint="@color/gris_claro" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="@font/asap_semibold"
+        android:text="Confirmar nueva contraseña *"
+        android:textColor="@color/verde_oscuro"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPass3" />
+
+    <Button
+        android:id="@+id/btnCambiarContrasena"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="#387645"
+        android:fontFamily="@font/asap_semibold"
+        android:text="Cambiar contraseña"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPass2" />
+
+    <EditText
+        android:id="@+id/txtPass3"
+        android:layout_width="290dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:fontFamily="@font/asap_medium"
+        android:hint="• • • • • • • •"
+        android:inputType="textPassword"
+        android:textColor="@color/gris_font"
+        android:textColorHint="@color/gris_claro"
+        app:layout_constraintEnd_toStartOf="@+id/btnVerPass"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="@font/asap_semibold"
+        android:text="Nueva contraseña*"
+        android:textColor="@color/verde_oscuro"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtActualContrasena" />
+
+    <ImageButton
+        android:id="@+id/btnVerPass3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/fondo_gris_azulado"
+        android:scaleType="fitCenter"
+        android:src="@drawable/baseline_remove_red_eye_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView18"
+        app:tint="@color/gris_claro" />
+
+    <EditText
+        android:id="@+id/txtActualContrasena"
+        android:layout_width="290dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:fontFamily="@font/asap_medium"
+        android:hint="• • • • • • • •"
+        android:inputType="textPassword"
+        android:textColor="@color/gris_font"
+        android:textColorHint="@color/gris_claro"
+        app:layout_constraintEnd_toStartOf="@+id/btnVerPass"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <ImageButton
+        android:id="@+id/btnVerPass2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/fondo_gris_azulado"
+        android:scaleType="fitCenter"
+        android:src="@drawable/baseline_remove_red_eye_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:tint="@color/gris_claro" />
+
+    <ImageView
+        android:id="@+id/logo3"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="60dp"
+        android:background="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="@font/asap_semibold"
+        android:text="Actual contraseña*"
+        android:textColor="@color/verde_oscuro"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo3" />
+
+    <Button
+        android:id="@+id/btnVolverPerfil"
+        android:layout_width="64dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="..."
+        app:backgroundTint="@color/verde_oscuro"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
