@@ -1,15 +1,20 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.myapplication.ui.perfiluser.EditPerfilUser;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -79,6 +84,19 @@ public class ListaUsuariosFragment extends Fragment {
 
         ListaUsuariosCustomAdapter adapter = new ListaUsuariosCustomAdapter(getContext(), R.layout.lista_item_usuario, userList);
         UserListView.setAdapter(adapter);
+
+        UserListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                Fragment_PerfilUsuarios fragmentPerfilUsuarios = new Fragment_PerfilUsuarios();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment_content_main, fragmentPerfilUsuarios);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
+            }
+        });
 
         return view;
     }

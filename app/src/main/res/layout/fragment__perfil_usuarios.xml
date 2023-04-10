@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo_gris_azulado"
+    tools:context=".Fragment_PerfilUsuarios">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="373dp"
+        android:layout_height="696dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_background"
+        android:elevation="8dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elsy Amaya"
+            android:textColor="#000000"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/circle"
+            android:elevation="8dp"
+            android:outlineProvider="background"
+            android:padding="8dp"
+            android:src="@drawable/usuarioperfil"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textusername"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:text="ElsyAmaya01"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtname" />
+
+        <TextView
+            android:id="@+id/txtcorreo"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:text="pao.amayalazo@gmail.com"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtname" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:text="I"
+            app:layout_constraintEnd_toStartOf="@+id/txtcorreo"
+            app:layout_constraintHorizontal_bias="0.482"
+            app:layout_constraintStart_toEndOf="@+id/textusername"
+            app:layout_constraintTop_toBottomOf="@+id/txtname" />
+
+        <TextView
+            android:id="@+id/txtcarrera"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:text="Carrera"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtcorreo" />
+
+        <TextView
+            android:id="@+id/txtcumple"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:text="Cumpleaños"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtnamecarrera" />
+
+        <TextView
+            android:id="@+id/txtnamecarrera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Ingeniería en Conputación"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtcarrera" />
+
+        <TextView
+            android:id="@+id/txtfechacumple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="01/01/2001"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtcumple" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="5dp"
+            android:background="#FFEB3B"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtfechacumple" />
+
+        <ImageView
+            android:id="@+id/btn_agggrupo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="50dp"
+            android:src="@drawable/masgrupos"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+        <ImageView
+            android:id="@+id/btn_aggamigo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="50dp"
+            android:src="@drawable/agregar_usuario"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+        <TextView
+            android:id="@+id/textView29"
+            android:layout_width="2dp"
+            android:layout_height="61dp"
+            android:background="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_aggamigo"
+            app:layout_constraintStart_toEndOf="@+id/btn_agggrupo"
+            app:layout_constraintTop_toBottomOf="@+id/textView27"
+            app:layout_constraintVertical_bias="0.395" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
