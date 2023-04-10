@@ -12,12 +12,25 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.myapplication.ui.home.HomeFragment;
+import com.example.myapplication.utilities.TokenManager;
 
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class ListaUsuariosGruposFragment extends Fragment {
 
@@ -26,6 +39,9 @@ public class ListaUsuariosGruposFragment extends Fragment {
 
     private ListaUsuariosCustomAdapter adapter;
     private EditText searchView;
+    private TokenManager tokenManager;
+
+    public String grupo_id;
 
     @Nullable
     @Override
@@ -35,6 +51,13 @@ public class ListaUsuariosGruposFragment extends Fragment {
         UserListView = view.findViewById(R.id.user_list);
         searchView = view.findViewById(R.id.search_view_edit_text);
         TerminarText = view.findViewById(R.id.terminar_text);
+        tokenManager = new TokenManager(getContext());
+
+        Bundle args = getArguments();
+        if (args != null) {
+            grupo_id = args.getString("grupo_id");
+        }
+
         TerminarText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,31 +92,64 @@ public class ListaUsuariosGruposFragment extends Fragment {
         public void onClick(View v) {
             search
 
-
         */
 
-
-
-
-
-
-
-        List<Usuario> userList = new ArrayList<>();
-        userList.add(new Usuario(R.drawable.usuario1, "Estefany Gonzales ", "Ingeniería en Computacion", R.drawable.agregar_usuario));
-        userList.add(new Usuario(R.drawable.usuario2, "Elsy Amaya", "Ingeniería en Computacion", R.drawable.agregar_usuario));
-        userList.add(new Usuario(R.drawable.usuario3, "Fabiana Rodriguez", "Ingeniería en Computacion",  R.drawable.agregar_usuario));
-        userList.add(new Usuario(R.drawable.usuario4, "Jorge Meraz", "Ingeniería en Computacion", R.drawable.agregar_usuario));
-        userList.add(new Usuario(R.drawable.usuario1, "Luis Rodriguez", "Ingeniería en Computacion",  R.drawable.agregar_usuario));
-        userList.add(new Usuario(R.drawable.usuario2, "Armando Lozano", "Ingeniería en Computacion",  R.drawable.agregar_usuario));
-        userList.add(new Usuario(R.drawable.usuario3, "Laura García", "Ingeniería Industrial", R.drawable.agregar_usuario));
-        userList.add(new Usuario(R.drawable.usuario4, "Javier Milei", "Master Phu Economia", R.drawable.agregar_usuario));
-        userList.add(new Usuario(R.drawable.usuario4, "Stephany Meraz", "Ingenieria Industrial",  R.drawable.agregar_usuario));
-
-
-        ListaUsuariosGruposCustomAdapter adapter = new ListaUsuariosGruposCustomAdapter(getContext(), R.layout.lista_item_buscar_usuario_grupo, userList);
-        UserListView.setAdapter(adapter);
+        extraerUsuarios();
 
         return view;
+    }
+
+    private void extraerUsuarios() {
+        String url = "https://www.api.katiosca.com/perfiles/lista";
+        List<Usuario> userList = new ArrayList<>();
+        RequestQueue queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject usuario = data.getJSONObject(i);
+
+                                int id = usuario.getJSONObject("usuario").getInt("id");
+                                String nombre = usuario.getJSONObject("usuario").getString("first_name");
+                                String apellido = usuario.getJSONObject("usuario").getString("last_name");
+                                String carrera = usuario.getJSONObject("carrera").getString("nombre_carrera");
+                                int imageResourceId = R.drawable.usuario3;
+                                int iconResourceId = R.drawable.agregar_usuario;
+
+                                String nombreCompleto = nombre + " " + apellido;
+
+                                Usuario u = new Usuario(id, imageResourceId, nombreCompleto, carrera, iconResourceId);
+                                userList.add(u);
+
+                                ListaUsuariosGruposCustomAdapter adapter = new ListaUsuariosGruposCustomAdapter(getContext(), R.layout.lista_item_buscar_usuario_grupo, userList, grupo_id);
+                                UserListView.setAdapter(adapter);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
+                return headers;
+            }
+        };
+
+        queue.add(request);
     }
 
 }
