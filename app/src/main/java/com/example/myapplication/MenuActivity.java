@@ -8,7 +8,6 @@ import android.view.Menu;
 import com.example.myapplication.ui.home.HomeFragment;
 import com.example.myapplication.ui.perfiluser.perfiluser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +29,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMenuBinding binding;
-
     private FloatingActionButton btnCrearGrupo;
 
     @Override
