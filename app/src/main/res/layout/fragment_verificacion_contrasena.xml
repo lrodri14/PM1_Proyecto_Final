@@ -36,10 +36,10 @@
         android:textColor="@color/gris_claro2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnContinuar" />
+        app:layout_constraintTop_toBottomOf="@+id/btnEnviar" />
 
     <Button
-        android:id="@+id/btnContinuar"
+        android:id="@+id/btnEnviar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -54,10 +54,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCodigo" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCorreo" />
 
     <EditText
-        android:id="@+id/txtCodigo"
+        android:id="@+id/txtCorreo"
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:layout_marginStart="40dp"

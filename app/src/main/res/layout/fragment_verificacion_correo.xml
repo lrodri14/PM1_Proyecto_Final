@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnContinuar"
+        android:id="@+id/btnEnviar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCodigo" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCorreo" />
 
     <TextView
         android:id="@+id/textView23"
@@ -49,7 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnContinuar" />
+        app:layout_constraintTop_toBottomOf="@+id/btnEnviar" />
 
     <TextView
         android:id="@+id/btnReenviarCod"
@@ -68,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
     <EditText
-        android:id="@+id/txtCodigo"
+        android:id="@+id/txtCorreo"
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:layout_marginStart="40dp"

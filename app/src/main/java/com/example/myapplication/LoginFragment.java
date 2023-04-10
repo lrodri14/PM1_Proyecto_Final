@@ -53,9 +53,9 @@ public class LoginFragment extends Fragment {
         textCambiarPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VerificacionContrasenaFragment fragmentCambiarContra = new VerificacionContrasenaFragment();
+                ValidacionCorreoContrasenaFragment fragmentCorreoContrasena = new ValidacionCorreoContrasenaFragment();
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.container, fragmentCambiarContra);
+                transaction.replace(R.id.container, fragmentCorreoContrasena);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -66,7 +66,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MenuActivity.class);
-                login(user.getText().toString(), contra.getText().toString());
+                //login(user.getText().toString(), contra.getText().toString());
                 startActivity(intent);
             }
         });
