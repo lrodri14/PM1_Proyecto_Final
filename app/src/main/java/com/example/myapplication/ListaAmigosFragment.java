@@ -33,10 +33,10 @@ public class ListaAmigosFragment extends Fragment {
         cancelText = view.findViewById(R.id.cancel_text);
 
         List<Amigos> friendList = new ArrayList<>();
-        friendList.add(new Amigos(R.drawable.amigo1, "Francisco Morazan ", "Lic. en Derecho", R.drawable.friendicon));
-        friendList.add(new Amigos(R.drawable.amigo2, "Abraham Lincoln", "Ingenieria en Electricidad", R.drawable.friendicon));
-        friendList.add(new Amigos(R.drawable.amigo3, "George Whashintong", "Ingenieria Industrial", R.drawable.friendicon));
-        friendList.add(new Amigos(R.drawable.amigo4, "Joao Da Silva", "Lic. en Economia", R.drawable.friendicon));
+        friendList.add(new Amigos(R.drawable.perfil, "Francisco Morazan ", "Lic. en Derecho", R.drawable.quitarusuario));
+        friendList.add(new Amigos(R.drawable.perfil, "Abraham Lincoln", "Ingenieria en Electricidad", R.drawable.quitarusuario));
+        friendList.add(new Amigos(R.drawable.perfil, "George Whashintong", "Ingenieria Industrial", R.drawable.quitarusuario));
+        friendList.add(new Amigos(R.drawable.perfil, "Joao Da Silva", "Lic. en Economia", R.drawable.quitarusuario));
 
         ListaAmigosCustomAdapter adapter = new ListaAmigosCustomAdapter(getContext(), R.layout.lista_item_amigo, friendList);
         FriendListView.setAdapter(adapter);

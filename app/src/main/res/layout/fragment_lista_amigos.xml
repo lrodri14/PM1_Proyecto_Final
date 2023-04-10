@@ -18,8 +18,10 @@
             android:id="@+id/search_view_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"
             android:layout_marginRight="8dp"
+            android:layout_weight="0.8"
+            android:background="@color/white"
+            android:backgroundTint="@color/white"
             android:drawableStart="@drawable/lupa"
             android:drawablePadding="8dp"
             android:hint="Buscar amigo..."
@@ -36,8 +38,8 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:text="Cancelar"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="13sp"
+            android:textColor="#387645"
+            android:textSize="17sp"
             android:visibility="visible" />
 
     </LinearLayout>
