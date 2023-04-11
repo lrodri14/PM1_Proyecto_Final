@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -119,9 +120,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         Fragment miFragment=null;
         boolean fragmentSeleccionado=false;
 
+
         if (id == R.id.nav_chats) {
-            miFragment= new HomeFragment();
-            fragmentSeleccionado=true;
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_perfil) {
             miFragment= new perfiluser();
             fragmentSeleccionado=true;
@@ -134,11 +136,15 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_noti) {
             miFragment= new NotificacionFragment();
             fragmentSeleccionado=true;
-    }
+    }else if (id == R.id.salir) {
+            Intent intent = new Intent(this, LoginMainActivity.class);
+            startActivity(intent);
+        }
 
         if (fragmentSeleccionado==true){
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_main,miFragment).commit();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -8,6 +8,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,13 +66,30 @@ public class LoginFragment extends Fragment {
         btnIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), MenuActivity.class);
-                login(user.getText().toString(), contra.getText().toString());
-                startActivity(intent);
+                if (validateLoginFields()) {
+                    login(user.getText().toString(), contra.getText().toString());
+                }
             }
         });
 
         return view;
+    }
+
+    public boolean validateLoginFields() {
+        String username = user.getText().toString().trim();
+        String password = contra.getText().toString().trim();
+
+        if (TextUtils.isEmpty(username)) {
+            Toast.makeText(getContext(), "Ingrese su usuario", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(getContext(), "Ingrese su contraseña", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     public boolean login(String username, String password) {
@@ -92,6 +110,8 @@ public class LoginFragment extends Fragment {
                     String authToken = extractAuthToken(response);
                     TokenManager tokenManager = new TokenManager(getContext());
                     tokenManager.saveAuthToken(authToken);
+                    Intent intent = new Intent(getContext(), MenuActivity.class);
+                    startActivity(intent);
                 },
                 error -> {
                     if (error.networkResponse != null && error.networkResponse.data != null) {
@@ -110,7 +130,6 @@ public class LoginFragment extends Fragment {
         requestQueue.add(jsonObjectRequest);
         return false;
     }
-
     private String extractAuthToken(JSONObject response) {
         try {
             JSONObject data = response.getJSONObject("data");
