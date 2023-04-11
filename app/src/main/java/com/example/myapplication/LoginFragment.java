@@ -66,7 +66,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MenuActivity.class);
-                //login(user.getText().toString(), contra.getText().toString());
+                login(user.getText().toString(), contra.getText().toString());
                 startActivity(intent);
             }
         });
