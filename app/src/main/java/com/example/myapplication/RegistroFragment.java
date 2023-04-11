@@ -69,11 +69,6 @@ public class RegistroFragment extends Fragment {
         textRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                VerificacionRegistroFragment fragmentCorreo = new VerificacionRegistroFragment(); //Se asigna el fragment que se abrirá
-//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.container, fragmentCorreo);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
                 String usuario = user.getText().toString();
                 String nombres = nombre.getText().toString();
                 String apellidos = apellido.getText().toString();
@@ -81,9 +76,7 @@ public class RegistroFragment extends Fragment {
                 String pass1 = contra1.getText().toString();
                 String pass2 = contra2.getText().toString();
                 int carrera = spinnerCarrera.getSelectedItemPosition() + 1;
-                Intent intent = new Intent(getContext(), MenuActivity.class);
                 registro(usuario, nombres, apellidos, pass1, pass2, correo, carrera);
-                startActivity(intent);
             }
         });
 
@@ -107,7 +100,7 @@ public class RegistroFragment extends Fragment {
                         }
 
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                                android.R.layout.simple_spinner_item, carreraLista);
+                        android.R.layout.simple_spinner_item, carreraLista);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                         spinnerCarrera.setAdapter(adapter);
@@ -161,6 +154,11 @@ public class RegistroFragment extends Fragment {
                     String authToken = extractAuthToken(response);
                     TokenManager tokenManager = new TokenManager(getContext());
                     tokenManager.saveAuthToken(authToken);
+                    LoginFragment fragmentCorreo = new LoginFragment(); //Se asigna el fragment que se abrirá
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.container, fragmentCorreo);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 },
                 error -> {
                     if (error.networkResponse != null && error.networkResponse.data != null) {
