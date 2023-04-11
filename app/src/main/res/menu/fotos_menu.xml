@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_camara"
+        android:icon="@drawable/suub"
+        android:title="Camara" />
+    <item
+        android:id="@+id/menu_galeria"
+        android:icon="@drawable/suub"
+        android:title="Galeria" />
+</menu>
