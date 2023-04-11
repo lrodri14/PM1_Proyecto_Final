@@ -85,8 +85,6 @@ public class ListaChatFragment  extends Fragment {
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                                     ChatGroup chatGroup = mChatGroups.get(position);
-                                    openChatFragment(chatGroup);
-
                                     Intent intent = new Intent(getActivity(), ConversacionActivity.class);
                                     intent.putExtra("nombre", chatGroup.getName());
                                     startActivity(intent);
@@ -118,20 +116,7 @@ public class ListaChatFragment  extends Fragment {
         Volley.newRequestQueue(getContext()).add(jsonObjectRequest);
     }
 
-    public void openChatFragment(ChatGroup ChatGroup) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        // Crea una nueva instancia del fragmento de chat y pasa el grupo de chat seleccionado como argumento
-        ConversacionFragment conversacionFragment = new ConversacionFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("chatGroup", ChatGroup);
-        conversacionFragment.setArguments(args);
-
-        fragmentTransaction.replace(R.id.fragment_container, conversacionFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
 }
 
 

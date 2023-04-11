@@ -1,12 +1,20 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.myapplication.ui.home.HomeFragment;
 import com.example.myapplication.ui.perfiluser.perfiluser;
+import com.example.myapplication.utilities.TokenManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -25,18 +33,35 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.databinding.ActivityMenuBinding;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
+
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMenuBinding binding;
     private FloatingActionButton btnCrearGrupo;
 
+    TextView nombre, correo;
+    TokenManager tokenManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMenuBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        nombre = (TextView) findViewById(R.id.idUsuario);
+        correo = (TextView) findViewById(R.id.usuarioCorreo);
+        tokenManager = new TokenManager(this);
 
         btnCrearGrupo = (FloatingActionButton)findViewById(R.id.fab);
 
@@ -66,6 +91,32 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         */
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://api.katiosca.com/perfiles/personal";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        JSONObject data = response.getJSONObject("data");
+                        JSONObject usuario = data.getJSONObject("usuario");
+                        nombre.setText(usuario.getString("first_name") + " " + usuario.getString("last_name"));
+                        correo.setText(usuario.getString("email"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            // Handle error
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
+                return headers;
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(request);
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -119,9 +170,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         Fragment miFragment=null;
         boolean fragmentSeleccionado=false;
 
+
         if (id == R.id.nav_chats) {
-            miFragment= new HomeFragment();
-            fragmentSeleccionado=true;
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_perfil) {
             miFragment= new perfiluser();
             fragmentSeleccionado=true;
@@ -134,11 +186,15 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_noti) {
             miFragment= new NotificacionFragment();
             fragmentSeleccionado=true;
-    }
+    }else if (id == R.id.salir) {
+            Intent intent = new Intent(this, LoginMainActivity.class);
+            startActivity(intent);
+        }
 
         if (fragmentSeleccionado==true){
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_main,miFragment).commit();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

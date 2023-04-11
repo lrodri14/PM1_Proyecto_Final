@@ -29,7 +29,6 @@
     <item android:title="Gestión">
     <menu>
     <item
-
         android:id="@+id/salir"
         android:icon="@drawable/salir"
         android:title="Cerrar Sesión " />

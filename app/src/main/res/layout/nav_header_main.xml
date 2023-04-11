@@ -13,7 +13,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/foto_perfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/nav_header_desc"
@@ -21,17 +21,17 @@
         app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
+        android:id="@+id/idUsuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Elsy Paola Amaya"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#000000" />
+        android:textColor="#00000000" />
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="pao.amayalazo01@gmail.com"
-        android:textColor="#000000" />
+        android:textColor="#00000000" />
 </LinearLayout>
