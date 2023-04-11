@@ -10,10 +10,16 @@ import android.view.ViewGroup;
 
 public class Fragment_PerfilUsuarios extends Fragment {
 
+    int userId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+        if (getArguments() != null) {
+            userId = getArguments().getInt("id");
+            System.out.println(userId);
+        }
+
         View view = inflater.inflate(R.layout.fragment__perfil_usuarios, container, false);
         return view;
     }

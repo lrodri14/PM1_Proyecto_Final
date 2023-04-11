@@ -14,12 +14,25 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.myapplication.ui.perfiluser.EditPerfilUser;
+import com.example.myapplication.utilities.TokenManager;
 
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class ListaUsuariosFragment extends Fragment {
 
@@ -29,6 +42,8 @@ public class ListaUsuariosFragment extends Fragment {
     private ListaUsuariosCustomAdapter adapter;
     private EditText searchView;
 
+    TokenManager tokenManager;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,6 +52,9 @@ public class ListaUsuariosFragment extends Fragment {
         UserListView = view.findViewById(R.id.user_list);
         searchView = view.findViewById(R.id.search_view_edit_text);
         cancelText = view.findViewById(R.id.cancel_text);
+        tokenManager = new TokenManager(getContext());
+
+        extraerUsuarios();
 
         /* Listener para el SearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -61,44 +79,78 @@ public class ListaUsuariosFragment extends Fragment {
         public void onClick(View v) {
             search
 
-
-        */
-
-
-
-
-
-
-
-        List<Usuario> userList = new ArrayList<>();
-        userList.add(new Usuario(R.drawable.usuario1, "Estefany Gonzales ", "Ingeniería en Computacion", R.drawable.usericon));
-        userList.add(new Usuario(R.drawable.usuario2, "Elsy Amaya", "Ingeniería en Computacion", R.drawable.usericon));
-        userList.add(new Usuario(R.drawable.usuario3, "Fabiana Rodriguez", "Ingeniería en Computacion", R.drawable.usericon));
-        userList.add(new Usuario(R.drawable.usuario4, "Jorge Meraz", "Ingeniería en Computacion", R.drawable.usericon));
-        userList.add(new Usuario(R.drawable.usuario1, "Luis Rodriguez", "Ingeniería en Computacion", R.drawable.usericon));
-        userList.add(new Usuario(R.drawable.usuario2, "Armando Lozano", "Ingeniería en Computacion", R.drawable.usericon));
-        userList.add(new Usuario(R.drawable.usuario3, "Laura García", "Ingeniería Industrial", R.drawable.usericon));
-        userList.add(new Usuario(R.drawable.usuario4, "Javier Milei", "Master Phu Economia", R.drawable.usericon));
-        userList.add(new Usuario(R.drawable.usuario4, "Stephany Meraz", "Ingenieria Industrial", R.drawable.usericon));
-
-
-        ListaUsuariosCustomAdapter adapter = new ListaUsuariosCustomAdapter(getContext(), R.layout.lista_item_usuario, userList);
-        UserListView.setAdapter(adapter);
+       */
 
         UserListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
+                Usuario usuario = (Usuario) adapterView.getItemAtPosition(position);
+                int usuarioId = usuario.getId();
                 Fragment_PerfilUsuarios fragmentPerfilUsuarios = new Fragment_PerfilUsuarios();
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", usuarioId);
+                fragmentPerfilUsuarios.setArguments(bundle);
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment_content_main, fragmentPerfilUsuarios);
                 transaction.addToBackStack(null);
                 transaction.commit();
-
             }
         });
 
         return view;
+    }
+
+    private void extraerUsuarios() {
+        String url = "https://www.api.katiosca.com/perfiles/lista";
+        List<Usuario> userList = new ArrayList<>();
+        RequestQueue queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject usuario = data.getJSONObject(i);
+
+                                int id = usuario.getJSONObject("usuario").getInt("id");
+                                String nombre = usuario.getJSONObject("usuario").getString("first_name");
+                                String apellido = usuario.getJSONObject("usuario").getString("last_name");
+                                String carrera = usuario.getJSONObject("carrera").getString("nombre_carrera");
+                                int imageResourceId = R.drawable.usuario3;
+                                int iconResourceId = R.drawable.agregar_usuario;
+
+                                String nombreCompleto = nombre + " " + apellido;
+
+                                Usuario u = new Usuario(id, imageResourceId, nombreCompleto, carrera, iconResourceId);
+                                userList.add(u);
+
+                                ListaUsuariosCustomAdapter adapter = new ListaUsuariosCustomAdapter(getContext(), R.layout.lista_item_buscar_usuario_grupo, userList);
+                                UserListView.setAdapter(adapter);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
+                return headers;
+            }
+        };
+
+        queue.add(request);
     }
 
 }
