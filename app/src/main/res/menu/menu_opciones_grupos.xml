@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_descripcion"
+        android:icon="@drawable/suub"
+        android:title="Descripción" />
+    <item
+        android:id="@+id/menu_archivos"
+        android:icon="@drawable/suub"
+        android:title="Archivos" />
+</menu>

@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,11 +26,11 @@ public class CambioContrasenaFragment extends Fragment {
         btnVolverPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditPerfilUser fragmentEditPerfil = new EditPerfilUser(); //Se asigna el fragment que se abrirá
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment_content_main, fragmentEditPerfil);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                String nombreFragment = "EditPerfilUser";
+                Intent intent = new Intent(getContext(), ViewActivity.class);
+                intent.putExtra("nombreFragment", nombreFragment);
+                startActivity(intent);
+
             }
         });
 

@@ -1,17 +1,25 @@
 package com.example.myapplication;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 
@@ -24,6 +32,10 @@ public class ConversacionActivity extends AppCompatActivity {
     private static final int REQUEST_SELECT_IMAGE = 1;
     private static final int REQUEST_RECORD_AUDIO = 2;
     private static final int REQUEST_RECORD_VIDEO = 3;
+    private static final int REQUEST_SELECT_FILE = 4;
+    private static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 5;
+    private static final int REQUEST_PERMISSION_RECORD_AUDIO = 6;
+    private static final int REQUEST_PERMISSION_CAMERA = 7;
 
 
 
@@ -32,6 +44,27 @@ public class ConversacionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
+
+
+
+        ActionBar actionBar = getSupportActionBar();
+        ImageView puntos = new ImageView(this);
+        puntos.setImageResource(R.drawable.trespuntos);
+
+// Establecemos el ImageButton como vista personalizada de la ActionBar
+        actionBar.setCustomView(puntos, new ActionBar.LayoutParams(Gravity.END));
+
+// Habilitamos la vista personalizada de la ActionBar
+        actionBar.setDisplayShowCustomEnabled(true);
+// Agregamos un listener de clic al ImageButton
+        puntos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupMenu(view);
+            }
+        });
+
+
 
         // Obtiene el nombre del grupo de chat seleccionado de la actividad anterior
         Intent intent = getIntent();
@@ -99,7 +132,7 @@ public class ConversacionActivity extends AppCompatActivity {
                 // Usa el video grabado aquí
             }
 
-            if (requestCode == 1 && resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_SELECT_FILE && resultCode == RESULT_OK) {
                 // Obtiene el archivo URI y el PATH
                 Uri uri = data.getData();
                 String path = uri.getPath();
@@ -138,28 +171,93 @@ public class ConversacionActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_image:
-                        // llamar Elemento de Imagen
-                        selectImageFromGallery();
+                        // Verificar si se ha concedido permiso para acceder a la galería
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
+                            ActivityCompat.requestPermissions(ConversacionActivity.this,
+                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
+                        } else {
+                            // Si el permiso se ha concedido, iniciar la actividad para seleccionar una imagen de la galería
+                            selectImageFromGallery();
+                        }
                         return true;
                     case R.id.menu_document:
-                        //Abrir Archivos
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("*/*"); // Permitir seleccionar cualquier tipo de archivo
-                        startActivityForResult(intent, 1);
+                        // Verificar si se ha concedido permiso para acceder a los documentos
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
+                            ActivityCompat.requestPermissions(ConversacionActivity.this,
+                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
+                        } else {
+                            // Si el permiso se ha concedido, iniciar la actividad para seleccionar un archivo de los documentos
+                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                            intent.setType("*/*"); // Permitir seleccionar cualquier tipo de archivo
+                            startActivityForResult(intent, 1);
+                        }
                         return true;
                     case R.id.menu_audio:
-                        // llamar Elemento de Audio
-                        recordAudio();
+                        // Verificar si se ha concedido permiso para grabar audio
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.RECORD_AUDIO)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
+                            ActivityCompat.requestPermissions(ConversacionActivity.this,
+                                    new String[]{Manifest.permission.RECORD_AUDIO},
+                                    REQUEST_PERMISSION_RECORD_AUDIO);
+                        } else {
+                            // Si el permiso se ha concedido, iniciar la actividad para grabar audio
+                            recordAudio();
+                        }
                         return true;
                     case R.id.menu_video:
-                        // llamar Elemento de Video
-                        recordVideo();
+                        // Verificar si se ha concedido permiso para acceder a la cámara
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.CAMERA)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
+                            ActivityCompat.requestPermissions(ConversacionActivity.this,
+                                    new String[]{Manifest.permission.CAMERA},
+                                    REQUEST_PERMISSION_CAMERA);
+                        } else {
+                            // Si el permiso se ha concedido, iniciar la actividad para grabar un video
+                            recordVideo();
+                        }
                         return true;
+
                     default:
                         return false;
                 }
             }
         });
         popup.show(); // muestra el menú emergente
+    }
+    private void showPopupMenu(View view) {
+        android.widget.PopupMenu popupMenu = new android.widget.PopupMenu(this, view);
+        this.getMenuInflater().inflate(R.menu.menu_opciones_grupos, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new android.widget.PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_archivos:
+
+                        return true;
+                    case R.id.menu_descripcion:
+
+                        String nombreFragment = "DescripcionGrupoFragment";
+                        Intent intent = new Intent(ConversacionActivity.this, ViewActivity.class);
+                        intent.putExtra("nombreFragment", nombreFragment);
+                        startActivity(intent);
+
+
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        popupMenu.show();
     }
 }
