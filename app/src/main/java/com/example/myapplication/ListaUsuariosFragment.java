@@ -90,10 +90,19 @@ public class ListaUsuariosFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", usuarioId);
                 fragmentPerfilUsuarios.setArguments(bundle);
+
+                String nombreFragment = "Fragment_PerfilUsuarios";
+                Intent intent = new Intent(getContext(), ViewActivity.class);
+                intent.putExtra("nombreFragment", nombreFragment);
+                startActivity(intent);
+
+                /*
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment_content_main, fragmentPerfilUsuarios);
                 transaction.addToBackStack(null);
                 transaction.commit();
+                */
+
             }
         });
 

@@ -260,6 +260,12 @@ public class ConversacionActivity extends AppCompatActivity {
                         return true;
                     case R.id.menu_descripcion:
 
+                        String nombreFragment = "DescripcionGrupoFragment";
+                        Intent intent = new Intent(ConversacionActivity.this, ViewActivity.class);
+                        intent.putExtra("nombreFragment", nombreFragment);
+                        startActivity(intent);
+
+
                         return true;
                     default:
                         return false;
