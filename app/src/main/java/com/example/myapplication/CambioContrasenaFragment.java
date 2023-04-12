@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -14,13 +15,13 @@ import com.example.myapplication.ui.perfiluser.EditPerfilUser;
 
 public class CambioContrasenaFragment extends Fragment {
 
-    Button btnVolverPerfil,btnCambiarContrasena;
-
+    Button btnCambiarContrasena;
+    ImageView btnVolverPerfil;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cambiar_contrasena, container, false);
-        btnVolverPerfil = view.findViewById(R.id.btnVolverPerfil);
+        btnVolverPerfil = view.findViewById(R.id.btnVolverLogin);
         btnCambiarContrasena = view.findViewById(R.id.btnCambiarContrasena);
 
         btnVolverPerfil.setOnClickListener(new View.OnClickListener() {

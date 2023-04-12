@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -24,10 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.example.myapplication.CambioContrasenaFragment;
-
 
 
 import com.example.myapplication.R;
@@ -60,7 +55,7 @@ public class EditPerfilUser extends Fragment {
 
         btnCambiarPass = view.findViewById(R.id.btnCambiarPass);
         btn_imagen = view.findViewById(R.id.btn_imagen);
-        btnVolver = view.findViewById(R.id.btnVolverPerfil);
+        btnVolver = view.findViewById(R.id.btnVolverLogin);
         images = view.findViewById(R.id.images);
         btnCambiarPass.setOnClickListener(new View.OnClickListener() {
             @Override
