@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaChatCustomAdapter  extends ArrayAdapter<ChatGroup> {
-
     private Context mContext;
     private ArrayList<ChatGroup> mChatGroups;
     private ListaChatCustomAdapter mChatListAdapter;
@@ -34,7 +33,7 @@ public class ListaChatCustomAdapter  extends ArrayAdapter<ChatGroup> {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_chat_grupo, parent, false);
         }
 
-       
+
 
         ChatGroup chatGroup = mChatGroups.get(position);
 

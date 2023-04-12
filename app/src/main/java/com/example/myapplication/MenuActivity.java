@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -81,6 +82,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 crearGrupoFragment.show(fragmentManager, "crear_grupo_dialog");
             }
         });
+        ActionBar actionBar = getSupportActionBar();
+// Establecemos el icono en la ActionBar
+        actionBar.setIcon(R.drawable.logo_uth);
+        actionBar.setDisplayShowHomeEnabled(true);
+
+
+
+
 
         /*setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
