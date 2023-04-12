@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/txtname"
+            android:id="@+id/nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -35,14 +35,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+            app:layout_constraintTop_toBottomOf="@+id/foto" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/foto"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/circle"
             android:elevation="8dp"
             android:outlineProvider="background"
             android:padding="8dp"
@@ -52,7 +51,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textusername"
+            android:id="@+id/usuario"
             android:layout_width="150dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
@@ -61,10 +60,10 @@
             android:textAlignment="center"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtname" />
+            app:layout_constraintTop_toBottomOf="@+id/nombre" />
 
         <TextView
-            android:id="@+id/txtcorreo"
+            android:id="@+id/correo"
             android:layout_width="150dp"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
@@ -72,7 +71,7 @@
             android:text="pao.amayalazo@gmail.com"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtname" />
+            app:layout_constraintTop_toBottomOf="@+id/nombre" />
 
         <TextView
             android:id="@+id/textView4"
@@ -82,10 +81,10 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="10dp"
             android:text="I"
-            app:layout_constraintEnd_toStartOf="@+id/txtcorreo"
+            app:layout_constraintEnd_toStartOf="@+id/correo"
             app:layout_constraintHorizontal_bias="0.482"
-            app:layout_constraintStart_toEndOf="@+id/textusername"
-            app:layout_constraintTop_toBottomOf="@+id/txtname" />
+            app:layout_constraintStart_toEndOf="@+id/usuario"
+            app:layout_constraintTop_toBottomOf="@+id/nombre" />
 
         <TextView
             android:id="@+id/txtcarrera"
@@ -99,14 +98,14 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtcorreo" />
+            app:layout_constraintTop_toBottomOf="@+id/correo" />
 
         <TextView
             android:id="@+id/txtcumple"
-            android:layout_width="150dp"
-            android:layout_height="0dp"
+            android:layout_width="283dp"
+            android:layout_height="36dp"
             android:layout_marginTop="24dp"
-            android:text="Cumpleaños"
+            android:text="Usuario Verificado"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="24sp"
@@ -114,10 +113,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtnamecarrera" />
+            app:layout_constraintTop_toBottomOf="@+id/carrera" />
 
         <TextView
-            android:id="@+id/txtnamecarrera"
+            android:id="@+id/carrera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -128,7 +127,7 @@
             app:layout_constraintTop_toBottomOf="@+id/txtcarrera" />
 
         <TextView
-            android:id="@+id/txtfechacumple"
+            android:id="@+id/verificado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
