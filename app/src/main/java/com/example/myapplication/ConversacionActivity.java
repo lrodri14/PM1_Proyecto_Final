@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -29,6 +30,7 @@ public class ConversacionActivity extends AppCompatActivity {
     private ArrayList<String> mChatMessages;
     private ArrayAdapter<String> mChatListAdapter;
 
+
     private static final int REQUEST_SELECT_IMAGE = 1;
     private static final int REQUEST_RECORD_AUDIO = 2;
     private static final int REQUEST_RECORD_VIDEO = 3;
@@ -36,8 +38,6 @@ public class ConversacionActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 5;
     private static final int REQUEST_PERMISSION_RECORD_AUDIO = 6;
     private static final int REQUEST_PERMISSION_CAMERA = 7;
-
-
 
 
     @Override
@@ -116,45 +116,58 @@ public class ConversacionActivity extends AppCompatActivity {
 
     }
 
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
+            //Se necesita encontrar el ImageView del attachment_menu
+           // ImageView imageView = findViewById(R.id.attach_imageview);
+           // imageView.setImageURI(selectedImageUri);
             // Usa la imagen seleccionada aquí
+        }
 
-            if (requestCode == REQUEST_RECORD_AUDIO && resultCode == RESULT_OK && data != null) {
-                // Usa el audio grabado aquí
-            }
+        if (requestCode == REQUEST_RECORD_AUDIO && resultCode == RESULT_OK && data != null) {
+            Uri audioUri = data.getData();
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, audioUri);
+            mediaPlayer.start();
+            // Usa el audio grabado aquí
+            //Se obtiene el audio atraves de mediaPlayer.
+        }
 
-            if (requestCode == REQUEST_RECORD_VIDEO && resultCode == RESULT_OK && data != null) {
-                // Usa el video grabado aquí
-            }
+        if (requestCode == REQUEST_RECORD_VIDEO && resultCode == RESULT_OK && data != null) {
+            Uri videoUri = data.getData();
+            //Se necesita encontrar el VideoView del attachment_menu
+            // VideoView videoView = findViewById(R.id.attach_videoview);
+            // videoView.setVideoURI(videoUri);
+            // videoView.start();
+            // Usa el video grabado aquí
+        }
 
-            if (requestCode == REQUEST_SELECT_FILE && resultCode == RESULT_OK) {
-                // Obtiene el archivo URI y el PATH
-                Uri uri = data.getData();
-                String path = uri.getPath();
+        if (requestCode == REQUEST_SELECT_FILE && resultCode == RESULT_OK) {
+            // Obtiene el archivo URI y el PATH
+            Uri uri = data.getData();
+            String path = uri.getPath();
 
-                // Usar el archivo PATH como se necesite
-                // ...
-            }
+            // Usar el archivo PATH como se necesite
+            // ...
         }
     }
 
 
-
+//Metodo para seleccionar la imagen desde la galeria
     private void selectImageFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_SELECT_IMAGE);
     }
 
+    //Metodo para grabar Audio
     private void recordAudio() {
         Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
         startActivityForResult(intent, REQUEST_RECORD_AUDIO);
     }
 
+    //Metodo para grabar Video
     private void recordVideo() {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         startActivityForResult(intent, REQUEST_RECORD_VIDEO);
@@ -172,11 +185,11 @@ public class ConversacionActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.menu_image:
                         // Verificar si se ha concedido permiso para acceder a la galería
-                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                                 != PackageManager.PERMISSION_GRANTED) {
                             // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
                             ActivityCompat.requestPermissions(ConversacionActivity.this,
-                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
                                     REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
                         } else {
                             // Si el permiso se ha concedido, iniciar la actividad para seleccionar una imagen de la galería
@@ -185,11 +198,11 @@ public class ConversacionActivity extends AppCompatActivity {
                         return true;
                     case R.id.menu_document:
                         // Verificar si se ha concedido permiso para acceder a los documentos
-                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                                 != PackageManager.PERMISSION_GRANTED) {
                             // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
                             ActivityCompat.requestPermissions(ConversacionActivity.this,
-                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
                                     REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
                         } else {
                             // Si el permiso se ha concedido, iniciar la actividad para seleccionar un archivo de los documentos
@@ -200,11 +213,11 @@ public class ConversacionActivity extends AppCompatActivity {
                         return true;
                     case R.id.menu_audio:
                         // Verificar si se ha concedido permiso para grabar audio
-                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.RECORD_AUDIO)
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.RECORD_AUDIO)
                                 != PackageManager.PERMISSION_GRANTED) {
                             // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
                             ActivityCompat.requestPermissions(ConversacionActivity.this,
-                                    new String[]{Manifest.permission.RECORD_AUDIO},
+                                    new String[]{android.Manifest.permission.RECORD_AUDIO},
                                     REQUEST_PERMISSION_RECORD_AUDIO);
                         } else {
                             // Si el permiso se ha concedido, iniciar la actividad para grabar audio
@@ -213,7 +226,7 @@ public class ConversacionActivity extends AppCompatActivity {
                         return true;
                     case R.id.menu_video:
                         // Verificar si se ha concedido permiso para acceder a la cámara
-                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.CAMERA)
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.CAMERA)
                                 != PackageManager.PERMISSION_GRANTED) {
                             // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
                             ActivityCompat.requestPermissions(ConversacionActivity.this,
@@ -232,6 +245,8 @@ public class ConversacionActivity extends AppCompatActivity {
         });
         popup.show(); // muestra el menú emergente
     }
+
+
     private void showPopupMenu(View view) {
         android.widget.PopupMenu popupMenu = new android.widget.PopupMenu(this, view);
         this.getMenuInflater().inflate(R.menu.menu_opciones_grupos, popupMenu.getMenu());
