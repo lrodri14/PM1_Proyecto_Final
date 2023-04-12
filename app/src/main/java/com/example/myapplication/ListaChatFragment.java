@@ -85,8 +85,13 @@ public class ListaChatFragment  extends Fragment {
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                                     ChatGroup chatGroup = mChatGroups.get(position);
+
+                                    // Abre el fragmento de chat para el grupo de chat seleccionado
+                                    // openChatFragment(chatGroup);
+
+                                    // crea un Intent para iniciar la actividad de conversación del grupo de chat
                                     Intent intent = new Intent(getActivity(), ConversacionActivity.class);
-                                    intent.putExtra("nombre", chatGroup.getName());
+                                    intent.putExtra("chatGroupName", chatGroup.getName());
                                     startActivity(intent);
                                 }
                             });
