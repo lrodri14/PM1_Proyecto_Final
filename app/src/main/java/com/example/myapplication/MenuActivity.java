@@ -184,8 +184,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, MenuActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_perfil) {
-            miFragment= new perfiluser();
-            fragmentSeleccionado=true;
+
+            String nombreFragment = "perfiluser";
+            Intent intent = new Intent(MenuActivity.this, ViewActivity.class);
+            intent.putExtra("nombreFragment", nombreFragment);
+            startActivity(intent);
+
+            //miFragment= new perfiluser();
+            //fragmentSeleccionado=true;
         } else if (id == R.id.nav_lista) {
             miFragment= new ListaAmigosFragment();
             fragmentSeleccionado=true;

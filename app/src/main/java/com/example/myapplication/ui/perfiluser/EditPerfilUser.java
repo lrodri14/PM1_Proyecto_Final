@@ -31,6 +31,7 @@ import com.example.myapplication.CambioContrasenaFragment;
 
 
 import com.example.myapplication.R;
+import com.example.myapplication.ViewActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +41,7 @@ import java.util.Date;
 
 public class EditPerfilUser extends Fragment {
 
-    ImageView btnCambiarPass, btn_imagen,images;
+    ImageView btnCambiarPass, btn_imagen,images, btnVolver;
     static final int Result_galeria = 101;
 
     static final  int REQUEST_IMAGE = 101;
@@ -59,15 +60,35 @@ public class EditPerfilUser extends Fragment {
 
         btnCambiarPass = view.findViewById(R.id.btnCambiarPass);
         btn_imagen = view.findViewById(R.id.btn_imagen);
+        btnVolver = view.findViewById(R.id.btnVolverPerfil);
         images = view.findViewById(R.id.images);
         btnCambiarPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CambioContrasenaFragment fragmentEditPass = new CambioContrasenaFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment_content_main, fragmentEditPass);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                String nombreFragment = "CambioContrasenaFragment";
+                Intent intent = new Intent(getContext(), ViewActivity.class);
+                intent.putExtra("nombreFragment", nombreFragment);
+                startActivity(intent);
+            }
+        });
+
+        btnCambiarPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nombreFragment = "CambioContrasenaFragment";
+                Intent intent = new Intent(getContext(), ViewActivity.class);
+                intent.putExtra("nombreFragment", nombreFragment);
+                startActivity(intent);
+            }
+        });
+
+        btnVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nombreFragment = "perfiluser";
+                Intent intent = new Intent(getContext(), ViewActivity.class);
+                intent.putExtra("nombreFragment", nombreFragment);
+                startActivity(intent);
             }
         });
 

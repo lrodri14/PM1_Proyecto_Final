@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.perfiluser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,8 +12,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.myapplication.MenuActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.RegistroFragment;
+import com.example.myapplication.ViewActivity;
 
 
 public class perfiluser extends Fragment {
@@ -27,13 +30,13 @@ public class perfiluser extends Fragment {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditPerfilUser fragmentEditPerfil = new EditPerfilUser();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment_content_main, fragmentEditPerfil);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                String nombreFragment = "EditPerfilUser";
+                Intent intent = new Intent(getContext(), ViewActivity.class);
+                intent.putExtra("nombreFragment", nombreFragment);
+                startActivity(intent);
             }
         });
+
 
 
 
