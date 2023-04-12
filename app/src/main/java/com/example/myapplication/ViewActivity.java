@@ -38,6 +38,12 @@ public class ViewActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, miFragment).commit();
         }
 
+        nombreFragment = getIntent().getStringExtra("nombreFragment");
+        if(nombreFragment != null && nombreFragment.equals("Fragment_PerfilUsuarios")){
+            Fragment_PerfilUsuarios miFragment = new Fragment_PerfilUsuarios();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, miFragment).commit();
+        }
+
 
     }
 }
