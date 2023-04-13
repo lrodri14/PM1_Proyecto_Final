@@ -118,7 +118,7 @@ public class ListaUsuariosGruposFragment extends Fragment {
                                 String nombre = usuario.getJSONObject("usuario").getString("first_name");
                                 String apellido = usuario.getJSONObject("usuario").getString("last_name");
                                 String carrera = usuario.getJSONObject("carrera").getString("nombre_carrera");
-                                int imageResourceId = R.drawable.usuario3;
+                                int imageResourceId = R.drawable.perfil;
                                 int iconResourceId = R.drawable.agregar_usuario;
 
                                 String nombreCompleto = nombre + " " + apellido;
