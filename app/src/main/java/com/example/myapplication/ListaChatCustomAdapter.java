@@ -21,9 +21,9 @@ public class ListaChatCustomAdapter  extends ArrayAdapter<ChatGroup> {
 
     public ListaChatCustomAdapter (Context context, ArrayList<ChatGroup> chatGroups) {
         super(context, 0, chatGroups);
-
         mContext = context;
         mChatGroups = chatGroups;
+
     }
 
     @NonNull

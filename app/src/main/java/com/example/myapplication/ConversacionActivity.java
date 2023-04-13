@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -22,13 +23,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.myapplication.utilities.TokenManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConversacionActivity extends AppCompatActivity {
 
     private ListView mChatListView;
     private ArrayList<String> mChatMessages;
     private ArrayAdapter<String> mChatListAdapter;
+    int grupoId;
+
+    TokenManager tokenManager;
 
 
     private static final int REQUEST_SELECT_IMAGE = 1;
@@ -44,6 +61,8 @@ public class ConversacionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
+        tokenManager = new TokenManager(this);
+        grupoId = getIntent().getIntExtra("chatGroupId", -1);
 
 
 
@@ -73,34 +92,16 @@ public class ConversacionActivity extends AppCompatActivity {
         // Establece el título de la actividad como el nombre del grupo de chat seleccionado
         getSupportActionBar().setTitle(chatGroupName);
 
-        //--------------- Inicializa la lista de mensajes del chat-----------
-        mChatMessages = new ArrayList<>();
-        mChatMessages.add("Jorge:  Hola, ¿cómo están todos?");
-        mChatMessages.add("Luis:    Bien, gracias ");
-        mChatMessages.add("Elsy:    bien, gracias.");
-        mChatMessages.add("Estefany:    bien, gracias.");
-        mChatMessages.add("Armando:    bien, gracias.");
-        mChatMessages.add("Fabiana:    bien, gracias.");
-        mChatMessages.add("Luis:       Hay que tenerminar avanzar en el" +
-                "                      Proyecto de Programacion Movil I.");
-        mChatMessages.add("Estefany:   Si esta muy largo, hay que investigar mucho.");
-
-        // Inicializa el adaptador de la lista de mensajes del chat
-        mChatListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mChatMessages);
-
-        //------ Configura el ListView----------------
-        mChatListView = findViewById(R.id.message_listview);
-        mChatListView.setAdapter(mChatListAdapter);
+       extraerMensajes(grupoId);
 
         // ----Agrega un mensaje cuando se presiona el botón de enviar-----
         final EditText messageEditText = findViewById(R.id.new_message_edittext);
         findViewById(R.id.send_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = messageEditText.getText().toString().trim();
+                String message = messageEditText.getText().toString();
                 if (!message.isEmpty()) {
-                    mChatMessages.add(message);
-                    mChatListAdapter.notifyDataSetChanged();
+                    CrearMensaje(message, grupoId);
                     messageEditText.setText("");
                 }
             }
@@ -275,4 +276,73 @@ public class ConversacionActivity extends AppCompatActivity {
 
         popupMenu.show();
     }
+
+    public void extraerMensajes(int grupoId){
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://api.katiosca.com/chats/" + grupoId;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        mChatMessages = new ArrayList<>();
+                        JSONArray jsonArray = response.getJSONArray("data");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject data = jsonArray.getJSONObject(i);
+                            JSONObject usuario = jsonArray.getJSONObject(i).getJSONObject("usuario");
+                            String mensaje = data.getString("mensaje");
+                            String nombreCompleto = usuario.getString("first_name") + " " + usuario.getString("last_name");
+                            mChatMessages.add(nombreCompleto + ": " + mensaje);
+                        }
+                        // Inicializa el adaptador de la lista de mensajes del chat
+                        mChatListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mChatMessages);
+                        //------ Configura el ListView----------------
+                        mChatListView = findViewById(R.id.message_listview);
+                        mChatListView.setAdapter(mChatListAdapter);
+                        mChatListAdapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            // Error
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
+                return headers;
+            }
+        };
+        queue.add(request);
+    }
+
+    public void CrearMensaje(String mensaje, int grupoId) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://www.api.katiosca.com/chats/" + grupoId;
+        JSONObject requestBody = new JSONObject();
+
+        try {
+            requestBody.put("mensaje", mensaje);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+                response -> {
+                    extraerMensajes(grupoId);
+                },
+                error -> {
+                    //
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
+                return headers;
+            }
+        };
+
+        queue.add(request);
+    }
+
 }

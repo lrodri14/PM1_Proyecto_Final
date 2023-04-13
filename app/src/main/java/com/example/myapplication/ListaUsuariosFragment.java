@@ -136,7 +136,7 @@ public class ListaUsuariosFragment extends Fragment {
                                 Usuario u = new Usuario(id, imageResourceId, nombreCompleto, carrera, iconResourceId);
                                 userList.add(u);
 
-                                ListaUsuariosCustomAdapter adapter = new ListaUsuariosCustomAdapter(getContext(), R.layout.lista_item_buscar_usuario_grupo, userList);
+                                ListaUsuariosCustomAdapter adapter = new ListaUsuariosCustomAdapter(getContext(), R.layout.lista_item_buscar_usuario_grupo, userList, id);
                                 UserListView.setAdapter(adapter);
                             }
 
