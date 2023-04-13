@@ -212,13 +212,15 @@ public class ConversacionActivity extends AppCompatActivity {
 
                 // Actualizar la lista de elementos que se muestran en el ListView
                 File[] files = getFilesDir().listFiles();
-                List<String> fileNames = new ArrayList<>();
+
                 for (File file : files) {
-                    fileNames.add(file.getName());
+                    mChatMessages.add(file.getName());
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, fileNames);
-                //Lista de los elementos
-                mChatListView.setAdapter(adapter);
+                mChatListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mChatMessages);
+                //------ Configura el ListView----------------
+                mChatListView = findViewById(R.id.message_listview);
+                mChatListView.setAdapter(mChatListAdapter);
+                mChatListAdapter.notifyDataSetChanged();
 
             } catch (Exception e) {
                 e.printStackTrace();
