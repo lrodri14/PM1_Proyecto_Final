@@ -61,7 +61,7 @@
         <activity
             android:name=".LoginMainActivity"
             android:exported="true"
-            android:label="UTH SHARE"
+            android:label="UTH-Share"
             android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
