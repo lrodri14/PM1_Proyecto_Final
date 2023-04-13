@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,8 +78,6 @@ public class ConversacionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_conversation);
         tokenManager = new TokenManager(this);
         grupoId = getIntent().getIntExtra("chatGroupId", -1);
-
-
 
         ActionBar actionBar = getSupportActionBar();
         ImageView puntos = new ImageView(this);
@@ -197,7 +196,6 @@ public class ConversacionActivity extends AppCompatActivity {
                 // Crear un archivo local donde se almacenará el contenido del archivo
                 selectedFile = new File(getFilesDir(), "archivo_seleccionado");
 
-
                 // Escribir el contenido del archivo en el archivo local
                 FileOutputStream outputStream = new FileOutputStream(selectedFile);
                 byte[] buffer = new byte[1024];
@@ -213,6 +211,7 @@ public class ConversacionActivity extends AppCompatActivity {
                 List<String> fileNames = new ArrayList<>();
                 for (File file : files) {
                     fileNames.add(file.getName());
+                    file.isFile();
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, fileNames);
                 //Lista de los elementos
@@ -280,7 +279,7 @@ public class ConversacionActivity extends AppCompatActivity {
                             // Si el permiso se ha concedido, iniciar la actividad para seleccionar un archivo de los documentos
                             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                             intent.setType("*/*"); // Permitir seleccionar cualquier tipo de archivo
-                            startActivityForResult(intent, 1);
+                            startActivityForResult(intent, 4);
                         }
                         return true;
                     case R.id.menu_audio:
