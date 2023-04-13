@@ -25,6 +25,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
+import androidx.documentfile.provider.DocumentFile;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -188,13 +189,16 @@ public class ConversacionActivity extends AppCompatActivity {
             //Almacenar el archivo
             Uri uri = data.getData();
             String path = uri.getPath();
+            DocumentFile documentFile = DocumentFile.fromSingleUri(this, uri);
+            String originalFileName = documentFile.getName();
+
 
             try {
                 // Obtener el contenido del archivo como un InputStream
                 InputStream inputStream = getContentResolver().openInputStream(uri);
 
                 // Crear un archivo local donde se almacenará el contenido del archivo
-                selectedFile = new File(getFilesDir(), "archivo_seleccionado");
+                selectedFile = new File(getFilesDir(), originalFileName);
 
                 // Escribir el contenido del archivo en el archivo local
                 FileOutputStream outputStream = new FileOutputStream(selectedFile);
@@ -211,7 +215,6 @@ public class ConversacionActivity extends AppCompatActivity {
                 List<String> fileNames = new ArrayList<>();
                 for (File file : files) {
                     fileNames.add(file.getName());
-                    file.isFile();
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, fileNames);
                 //Lista de los elementos
