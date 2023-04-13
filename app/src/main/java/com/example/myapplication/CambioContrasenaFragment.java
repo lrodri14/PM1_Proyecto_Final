@@ -13,9 +13,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.example.myapplication.ui.perfiluser.EditPerfilUser;
 
 public class CambioContrasenaFragment extends Fragment {
 
@@ -28,7 +25,7 @@ public class CambioContrasenaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cambiar_contrasena, container, false);
-        btnVolverPerfil = view.findViewById(R.id.btnVolverLogin);
+        btnVolverPerfil = view.findViewById(R.id.btnVolverMenu);
         btnCambiarContrasena = view.findViewById(R.id.btnCambiarContrasena);
         btnVerPass1 = view.findViewById(R.id.btnVerPass2);
         btnVerPass2= view.findViewById(R.id.btnVerPass3);

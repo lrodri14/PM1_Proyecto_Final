@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnVolverLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/btnVolverMenu" />
 
     <Button
         android:id="@+id/btnCambiarContrasena"
@@ -129,7 +129,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
     <ImageView
-        android:id="@+id/btnVolverLogin"
+        android:id="@+id/btnVolverMenu"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/atras"
