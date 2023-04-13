@@ -39,7 +39,7 @@ public class EditPerfilUser extends Fragment {
     ImageView btnCambiarPass, btn_imagen,images, btnVolver;
     static final int Result_galeria = 101;
 
-    static final  int REQUEST_IMAGE = 101;
+    static final  int REQUEST_IMAGE = 102;
     static final  int PETICION_ACCESS_CAM = 201;
 
     Bitmap bitmap;
