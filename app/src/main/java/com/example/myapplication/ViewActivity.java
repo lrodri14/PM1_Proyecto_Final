@@ -13,6 +13,7 @@ public class ViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
+        int usuarioId;
 
         String nombreFragment = getIntent().getStringExtra("nombreFragment");
         if(nombreFragment != null && nombreFragment.equals("DescripcionGrupoFragment")){
@@ -40,7 +41,11 @@ public class ViewActivity extends AppCompatActivity {
 
         nombreFragment = getIntent().getStringExtra("nombreFragment");
         if(nombreFragment != null && nombreFragment.equals("Fragment_PerfilUsuarios")){
+            usuarioId = getIntent().getIntExtra("idUsuario", 0);
             Fragment_PerfilUsuarios miFragment = new Fragment_PerfilUsuarios();
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", usuarioId);
+            miFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, miFragment).commit();
         }
 
