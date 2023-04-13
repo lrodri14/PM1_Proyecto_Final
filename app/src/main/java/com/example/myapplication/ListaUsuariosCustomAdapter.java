@@ -18,11 +18,13 @@ public class ListaUsuariosCustomAdapter  extends ArrayAdapter<Usuario> {
 
     private Context Context;
     private int Resource;
+    int usuarioId;
 
-    public ListaUsuariosCustomAdapter(Context context, int resource, List<Usuario> objects) {
+    public ListaUsuariosCustomAdapter(Context context, int resource, List<Usuario> objects, int usuarioId) {
         super(context, resource, objects);
         Context = context;
         Resource = resource;
+        this.usuarioId = usuarioId;
     }
 
     @NonNull
