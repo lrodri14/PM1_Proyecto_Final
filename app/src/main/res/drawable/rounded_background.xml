@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <corners android:radius="50dp" /> <!-- 20dp es el radio de esquina que deseas utilizar -->
-    <solid android:color="#F3F7FA" /> <!-- Cambia el color según tus necesidades -->
+    <solid android:color="#FFFF" /> <!-- Cambia el color según tus necesidades -->
 </shape>

@@ -84,7 +84,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         });
         ActionBar actionBar = getSupportActionBar();
 // Establecemos el icono en la ActionBar
-        actionBar.setIcon(R.drawable.logo_uth);
+        actionBar.setIcon(R.drawable.uth_share_logo2);
         actionBar.setDisplayShowHomeEnabled(true);
 
 

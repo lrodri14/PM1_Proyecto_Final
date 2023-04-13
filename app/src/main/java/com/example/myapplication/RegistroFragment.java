@@ -171,7 +171,7 @@ public class RegistroFragment extends Fragment {
             return false;
         }
         if (TextUtils.isEmpty(password2)) {
-            contra2.setError("Ingrese la validación de la contraseña");
+            contra2.setError("Ingrese la confrimación de la contraseña");
             return false;
         }
         if (TextUtils.isEmpty(nombreuser)) {

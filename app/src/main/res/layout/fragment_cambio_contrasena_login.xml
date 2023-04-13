@@ -42,7 +42,7 @@
 
     <EditText
         android:id="@+id/txtPass3"
-        android:layout_width="290dp"
+        android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="92dp"
@@ -52,8 +52,6 @@
         android:inputType="textPassword"
         android:textColor="@color/gris_font"
         android:textColorHint="@color/gris_claro"
-        app:layout_constraintEnd_toStartOf="@+id/btnVerPass"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -78,17 +76,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/fondo_gris_azulado"
+        android:background="@color/white"
         android:scaleType="fitCenter"
         android:src="@drawable/baseline_remove_red_eye_24"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtPass3"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:tint="@color/gris_claro" />
 
     <EditText
         android:id="@+id/txtActualContrasena"
-        android:layout_width="290dp"
+        android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
@@ -98,8 +96,6 @@
         android:inputType="textPassword"
         android:textColor="@color/gris_font"
         android:textColorHint="@color/gris_claro"
-        app:layout_constraintEnd_toStartOf="@+id/btnVerPass"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -108,11 +104,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/fondo_gris_azulado"
+        android:background="@color/white"
         android:scaleType="fitCenter"
         android:src="@drawable/baseline_remove_red_eye_24"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtActualContrasena"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:tint="@color/gris_claro" />
 
@@ -134,8 +130,8 @@
 
     <ImageView
         android:id="@+id/btnVolverLogin"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/atras"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

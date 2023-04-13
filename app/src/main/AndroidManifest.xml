@@ -47,7 +47,7 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".PantallaSplash"
+            android:name=".LoginMainActivity"
             android:exported="false" />
         <activity
             android:name=".ViewActivity"
@@ -59,7 +59,7 @@
             android:name=".ConversacionActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMainActivity"
+            android:name=".PantallaSplash"
             android:exported="true"
             android:label="UTH-Share"
             android:theme="@style/Theme.MyApplication.NoActionBar">
