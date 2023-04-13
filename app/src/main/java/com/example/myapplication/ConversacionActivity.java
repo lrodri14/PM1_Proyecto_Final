@@ -213,6 +213,7 @@ public class ConversacionActivity extends AppCompatActivity {
                 // Actualizar la lista de elementos que se muestran en el ListView
                 File[] files = getFilesDir().listFiles();
 
+
                 for (File file : files) {
                     mChatMessages.add(file.getName());
                 }
