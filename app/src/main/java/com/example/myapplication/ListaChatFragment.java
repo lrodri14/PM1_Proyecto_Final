@@ -65,6 +65,7 @@ public class ListaChatFragment  extends Fragment {
 
                             for (int i = 0; i < data.length(); i++) {
                                 JSONObject chatGroupJson = data.getJSONObject(i);
+                                int grupoId = chatGroupJson.getInt("id");
                                 String nombre = chatGroupJson.getString("nombre");
                                 JSONArray miembros = chatGroupJson.getJSONArray("usuarios");
                                 List<String> members = new ArrayList<>();
@@ -74,7 +75,7 @@ public class ListaChatFragment  extends Fragment {
                                     members.add(miembro.getString("username"));
                                 }
 
-                                ChatGroup chatGroup = new ChatGroup(nombre, members);
+                                ChatGroup chatGroup = new ChatGroup(grupoId, nombre, members);
                                 mChatGroups.add(chatGroup);
                             }
 
@@ -91,6 +92,7 @@ public class ListaChatFragment  extends Fragment {
 
                                     // crea un Intent para iniciar la actividad de conversación del grupo de chat
                                     Intent intent = new Intent(getActivity(), ConversacionActivity.class);
+                                    intent.putExtra("chatGroupId", chatGroup.getId());
                                     intent.putExtra("chatGroupName", chatGroup.getName());
                                     startActivity(intent);
                                 }

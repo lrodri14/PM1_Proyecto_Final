@@ -2,11 +2,16 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +38,9 @@ public class RegistroFragment extends Fragment {
     TextView textLogin; //Ir a login por si ya se tiene una cuenta
     TextView textRegistrar; //Ir a la pantalla del correo de verificación para confirmar el registro
     EditText user, nombre, apellido, contra1, contra2, email;
+    ImageButton btnVerPass;
     public Spinner spinnerCarrera;
+    boolean verPass = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,12 +53,27 @@ public class RegistroFragment extends Fragment {
         email = view.findViewById(R.id.txtCorreo);
         contra1 = view.findViewById(R.id.txtPass);
         contra2 = view.findViewById(R.id.txtPassConf);
-        contra2 = view.findViewById(R.id.txtPassConf);
         textLogin = view.findViewById(R.id.btnLogin);
         textRegistrar = view.findViewById(R.id.btnRegistro);
         spinnerCarrera = view.findViewById(R.id.carreras);
+        btnVerPass = view.findViewById(R.id.btnVerPass);
 
 
+
+        btnVerPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (verPass) {
+                    contra1.setTransformationMethod(new PasswordTransformationMethod());
+                    btnVerPass.setImageResource(R.drawable.baseline_remove_red_eye_24);
+                    verPass = false;
+                } else {
+                    contra1.setTransformationMethod(null);
+                    btnVerPass.setImageResource(R.drawable.ojoscruzados);
+                    verPass = true;
+                }
+            }
+        });
         //Evento clic para el botón "Ingresar" por si ya se tiene una cuenta
         textLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,14 +91,16 @@ public class RegistroFragment extends Fragment {
         textRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String usuario = user.getText().toString();
-                String nombres = nombre.getText().toString();
-                String apellidos = apellido.getText().toString();
-                String correo = email.getText().toString();
-                String pass1 = contra1.getText().toString();
-                String pass2 = contra2.getText().toString();
-                int carrera = spinnerCarrera.getSelectedItemPosition() + 1;
-                registro(usuario, nombres, apellidos, pass1, pass2, correo, carrera);
+                if (validateLoginFields()) {
+                    String usuario = user.getText().toString();
+                    String nombres = nombre.getText().toString();
+                    String apellidos = apellido.getText().toString();
+                    String correo = email.getText().toString();
+                    String pass1 = contra1.getText().toString();
+                    String pass2 = contra2.getText().toString();
+                    int carrera = spinnerCarrera.getSelectedItemPosition() + 1;
+                    registro(usuario, nombres, apellidos, pass1, pass2, correo, carrera);
+                }
             }
         });
 
@@ -128,6 +152,50 @@ public class RegistroFragment extends Fragment {
 
 
         return view;
+    }
+    public boolean validateLoginFields() {
+        String username = user.getText().toString().trim();
+        String password1 = contra1.getText().toString().trim();
+        String password2 = contra2.getText().toString().trim();
+        String nombreuser = nombre.getText().toString().trim();
+        String apellidouser = apellido.getText().toString().trim();
+        String correo = email.getText().toString().trim();
+
+
+        if (TextUtils.isEmpty(username)) {
+            Toast.makeText(getContext(), "Ingrese su número de cuenta", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(password1)) {
+            Toast.makeText(getContext(), "Ingrese una contraseña", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(password2)) {
+            Toast.makeText(getContext(), "Ingrese la validación de la contraseña", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(nombreuser)) {
+            Toast.makeText(getContext(), "Ingrese su nombre completo", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(apellidouser)) {
+            Toast.makeText(getContext(), "Ingrese su apellido completo", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(password2)) {
+            Toast.makeText(getContext(), "Ingrese la validación de la contraseña", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(correo)) {
+            Toast.makeText(getContext(), "Ingrese su correo", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!password1.equals(password2)) {
+            Toast.makeText(getContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     public boolean registro(String username, String nombre, String apellido, String password1,

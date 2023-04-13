@@ -16,12 +16,11 @@
         android:id="@+id/imageView7"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="100dp"
         android:src="@drawable/cambio_contrasena"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btnVolverLogin" />
 
     <Button
         android:id="@+id/btnCambiarContrasena"
@@ -79,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/fondo_gris_azulado"
         android:scaleType="fitCenter"
         android:src="@drawable/baseline_remove_red_eye_24"
@@ -109,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/fondo_gris_azulado"
         android:scaleType="fitCenter"
         android:src="@drawable/baseline_remove_red_eye_24"
@@ -133,14 +132,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
-    <Button
-        android:id="@+id/btnVolverPerfil"
-        android:layout_width="64dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:text="..."
-        app:backgroundTint="@color/verde_oscuro"
+    <ImageView
+        android:id="@+id/btnVolverLogin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/atras"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

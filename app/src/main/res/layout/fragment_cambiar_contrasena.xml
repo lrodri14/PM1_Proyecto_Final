@@ -11,12 +11,11 @@
         android:id="@+id/imageView9"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="64dp"
         android:src="@drawable/cambio_contrasena"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btnVolverLogin" />
 
     <EditText
         android:id="@+id/txtPass2"
@@ -174,15 +173,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
-    <Button
-        android:id="@+id/btnVolverPerfil"
-        android:layout_width="64dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="..."
-        app:backgroundTint="@color/verde_oscuro"
+    <ImageView
+        android:id="@+id/btnVolverLogin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/atras"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

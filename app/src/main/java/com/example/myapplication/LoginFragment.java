@@ -9,11 +9,13 @@ import com.android.volley.toolbox.Volley;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,8 @@ public class LoginFragment extends Fragment {
     //Y para cambiar contraseña por si este la olvidó
     private Button btnIngresar;
     EditText user, contra;
+    ImageButton btnVerPass;
+    boolean verPass = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +43,24 @@ public class LoginFragment extends Fragment {
         user = view.findViewById(R.id.txtUser);
         contra = view.findViewById(R.id.txtPass);
         btnIngresar = view.findViewById(R.id.btnIngresar);
+        btnVerPass = view.findViewById(R.id.btnVerPass);
 
+
+
+        btnVerPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (verPass) {
+                    contra.setTransformationMethod(new PasswordTransformationMethod());
+                    btnVerPass.setImageResource(R.drawable.baseline_remove_red_eye_24);
+                    verPass = false;
+                } else {
+                    contra.setTransformationMethod(null);
+                    btnVerPass.setImageResource(R.drawable.ojoscruzados);
+                    verPass = true;
+                }
+            }
+        });
         textRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

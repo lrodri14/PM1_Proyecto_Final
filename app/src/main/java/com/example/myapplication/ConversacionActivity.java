@@ -1,8 +1,10 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,13 +23,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.myapplication.utilities.TokenManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConversacionActivity extends AppCompatActivity {
 
     private ListView mChatListView;
     private ArrayList<String> mChatMessages;
     private ArrayAdapter<String> mChatListAdapter;
+    int grupoId;
+
+    TokenManager tokenManager;
+
 
     private static final int REQUEST_SELECT_IMAGE = 1;
     private static final int REQUEST_RECORD_AUDIO = 2;
@@ -38,12 +57,12 @@ public class ConversacionActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION_CAMERA = 7;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
+        tokenManager = new TokenManager(this);
+        grupoId = getIntent().getIntExtra("chatGroupId", -1);
 
 
 
@@ -73,34 +92,16 @@ public class ConversacionActivity extends AppCompatActivity {
         // Establece el título de la actividad como el nombre del grupo de chat seleccionado
         getSupportActionBar().setTitle(chatGroupName);
 
-        //--------------- Inicializa la lista de mensajes del chat-----------
-        mChatMessages = new ArrayList<>();
-        mChatMessages.add("Jorge:  Hola, ¿cómo están todos?");
-        mChatMessages.add("Luis:    Bien, gracias ");
-        mChatMessages.add("Elsy:    bien, gracias.");
-        mChatMessages.add("Estefany:    bien, gracias.");
-        mChatMessages.add("Armando:    bien, gracias.");
-        mChatMessages.add("Fabiana:    bien, gracias.");
-        mChatMessages.add("Luis:       Hay que tenerminar avanzar en el" +
-                "                      Proyecto de Programacion Movil I.");
-        mChatMessages.add("Estefany:   Si esta muy largo, hay que investigar mucho.");
-
-        // Inicializa el adaptador de la lista de mensajes del chat
-        mChatListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mChatMessages);
-
-        //------ Configura el ListView----------------
-        mChatListView = findViewById(R.id.message_listview);
-        mChatListView.setAdapter(mChatListAdapter);
+       extraerMensajes(grupoId);
 
         // ----Agrega un mensaje cuando se presiona el botón de enviar-----
         final EditText messageEditText = findViewById(R.id.new_message_edittext);
         findViewById(R.id.send_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = messageEditText.getText().toString().trim();
+                String message = messageEditText.getText().toString();
                 if (!message.isEmpty()) {
-                    mChatMessages.add(message);
-                    mChatListAdapter.notifyDataSetChanged();
+                    CrearMensaje(message, grupoId);
                     messageEditText.setText("");
                 }
             }
@@ -116,45 +117,58 @@ public class ConversacionActivity extends AppCompatActivity {
 
     }
 
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
+            //Se necesita encontrar el ImageView del attachment_menu
+           // ImageView imageView = findViewById(R.id.attach_imageview);
+           // imageView.setImageURI(selectedImageUri);
             // Usa la imagen seleccionada aquí
+        }
 
-            if (requestCode == REQUEST_RECORD_AUDIO && resultCode == RESULT_OK && data != null) {
-                // Usa el audio grabado aquí
-            }
+        if (requestCode == REQUEST_RECORD_AUDIO && resultCode == RESULT_OK && data != null) {
+            Uri audioUri = data.getData();
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, audioUri);
+            mediaPlayer.start();
+            // Usa el audio grabado aquí
+            //Se obtiene el audio atraves de mediaPlayer.
+        }
 
-            if (requestCode == REQUEST_RECORD_VIDEO && resultCode == RESULT_OK && data != null) {
-                // Usa el video grabado aquí
-            }
+        if (requestCode == REQUEST_RECORD_VIDEO && resultCode == RESULT_OK && data != null) {
+            Uri videoUri = data.getData();
+            //Se necesita encontrar el VideoView del attachment_menu
+            // VideoView videoView = findViewById(R.id.attach_videoview);
+            // videoView.setVideoURI(videoUri);
+            // videoView.start();
+            // Usa el video grabado aquí
+        }
 
-            if (requestCode == REQUEST_SELECT_FILE && resultCode == RESULT_OK) {
-                // Obtiene el archivo URI y el PATH
-                Uri uri = data.getData();
-                String path = uri.getPath();
+        if (requestCode == REQUEST_SELECT_FILE && resultCode == RESULT_OK) {
+            // Obtiene el archivo URI y el PATH
+            Uri uri = data.getData();
+            String path = uri.getPath();
 
-                // Usar el archivo PATH como se necesite
-                // ...
-            }
+            // Usar el archivo PATH como se necesite
+            // ...
         }
     }
 
 
-
+//Metodo para seleccionar la imagen desde la galeria
     private void selectImageFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_SELECT_IMAGE);
     }
 
+    //Metodo para grabar Audio
     private void recordAudio() {
         Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
         startActivityForResult(intent, REQUEST_RECORD_AUDIO);
     }
 
+    //Metodo para grabar Video
     private void recordVideo() {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         startActivityForResult(intent, REQUEST_RECORD_VIDEO);
@@ -172,11 +186,11 @@ public class ConversacionActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.menu_image:
                         // Verificar si se ha concedido permiso para acceder a la galería
-                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                                 != PackageManager.PERMISSION_GRANTED) {
                             // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
                             ActivityCompat.requestPermissions(ConversacionActivity.this,
-                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
                                     REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
                         } else {
                             // Si el permiso se ha concedido, iniciar la actividad para seleccionar una imagen de la galería
@@ -185,11 +199,11 @@ public class ConversacionActivity extends AppCompatActivity {
                         return true;
                     case R.id.menu_document:
                         // Verificar si se ha concedido permiso para acceder a los documentos
-                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                                 != PackageManager.PERMISSION_GRANTED) {
                             // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
                             ActivityCompat.requestPermissions(ConversacionActivity.this,
-                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
                                     REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
                         } else {
                             // Si el permiso se ha concedido, iniciar la actividad para seleccionar un archivo de los documentos
@@ -200,11 +214,11 @@ public class ConversacionActivity extends AppCompatActivity {
                         return true;
                     case R.id.menu_audio:
                         // Verificar si se ha concedido permiso para grabar audio
-                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.RECORD_AUDIO)
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.RECORD_AUDIO)
                                 != PackageManager.PERMISSION_GRANTED) {
                             // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
                             ActivityCompat.requestPermissions(ConversacionActivity.this,
-                                    new String[]{Manifest.permission.RECORD_AUDIO},
+                                    new String[]{android.Manifest.permission.RECORD_AUDIO},
                                     REQUEST_PERMISSION_RECORD_AUDIO);
                         } else {
                             // Si el permiso se ha concedido, iniciar la actividad para grabar audio
@@ -213,7 +227,7 @@ public class ConversacionActivity extends AppCompatActivity {
                         return true;
                     case R.id.menu_video:
                         // Verificar si se ha concedido permiso para acceder a la cámara
-                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, Manifest.permission.CAMERA)
+                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.CAMERA)
                                 != PackageManager.PERMISSION_GRANTED) {
                             // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
                             ActivityCompat.requestPermissions(ConversacionActivity.this,
@@ -232,6 +246,8 @@ public class ConversacionActivity extends AppCompatActivity {
         });
         popup.show(); // muestra el menú emergente
     }
+
+
     private void showPopupMenu(View view) {
         android.widget.PopupMenu popupMenu = new android.widget.PopupMenu(this, view);
         this.getMenuInflater().inflate(R.menu.menu_opciones_grupos, popupMenu.getMenu());
@@ -260,4 +276,73 @@ public class ConversacionActivity extends AppCompatActivity {
 
         popupMenu.show();
     }
+
+    public void extraerMensajes(int grupoId){
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://api.katiosca.com/chats/" + grupoId;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        mChatMessages = new ArrayList<>();
+                        JSONArray jsonArray = response.getJSONArray("data");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject data = jsonArray.getJSONObject(i);
+                            JSONObject usuario = jsonArray.getJSONObject(i).getJSONObject("usuario");
+                            String mensaje = data.getString("mensaje");
+                            String nombreCompleto = usuario.getString("first_name") + " " + usuario.getString("last_name");
+                            mChatMessages.add(nombreCompleto + ": " + mensaje);
+                        }
+                        // Inicializa el adaptador de la lista de mensajes del chat
+                        mChatListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mChatMessages);
+                        //------ Configura el ListView----------------
+                        mChatListView = findViewById(R.id.message_listview);
+                        mChatListView.setAdapter(mChatListAdapter);
+                        mChatListAdapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            // Error
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
+                return headers;
+            }
+        };
+        queue.add(request);
+    }
+
+    public void CrearMensaje(String mensaje, int grupoId) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://www.api.katiosca.com/chats/" + grupoId;
+        JSONObject requestBody = new JSONObject();
+
+        try {
+            requestBody.put("mensaje", mensaje);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+                response -> {
+                    extraerMensajes(grupoId);
+                },
+                error -> {
+                    //
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
+                return headers;
+            }
+        };
+
+        queue.add(request);
+    }
+
 }
