@@ -14,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.myapplication.MenuActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewActivity;
 import com.example.myapplication.utilities.TokenManager;
@@ -30,7 +31,7 @@ public class perfiluser extends Fragment {
 
     ImageView btnEdit;
     TextView usuario, nombre, correo, carrera, verificado;
-    ImageView foto;
+    ImageView foto, btnVolver;
 
     TokenManager tokenManager;
     @Override
@@ -47,6 +48,14 @@ public class perfiluser extends Fragment {
         carrera = view.findViewById(R.id.nombreDeCarrera);
         verificado = view.findViewById(R.id.usuarioVerificado);
         foto = view.findViewById(R.id.foto);
+        btnVolver = view.findViewById(R.id.btnVolverMenu);
+        btnVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MenuActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,4 +110,5 @@ public class perfiluser extends Fragment {
 
         return view;
     }
+
 }

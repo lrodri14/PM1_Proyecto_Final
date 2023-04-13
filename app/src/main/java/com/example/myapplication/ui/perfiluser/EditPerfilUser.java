@@ -55,7 +55,7 @@ public class EditPerfilUser extends Fragment {
 
         btnCambiarPass = view.findViewById(R.id.btnCambiarPass);
         btn_imagen = view.findViewById(R.id.btn_imagen);
-        btnVolver = view.findViewById(R.id.btnVolverLogin);
+        btnVolver = view.findViewById(R.id.btnVolverMenu);
         images = view.findViewById(R.id.images);
         btnCambiarPass.setOnClickListener(new View.OnClickListener() {
             @Override
