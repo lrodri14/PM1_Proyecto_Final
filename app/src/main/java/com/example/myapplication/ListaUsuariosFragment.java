@@ -94,6 +94,7 @@ public class ListaUsuariosFragment extends Fragment {
                 String nombreFragment = "Fragment_PerfilUsuarios";
                 Intent intent = new Intent(getContext(), ViewActivity.class);
                 intent.putExtra("nombreFragment", nombreFragment);
+                intent.putExtra("idUsuario", usuarioId);
                 startActivity(intent);
 
                 /*

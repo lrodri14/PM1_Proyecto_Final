@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/nombre"
+            android:id="@+id/nombreUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Elsy Amaya"
@@ -39,7 +39,6 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/circle"
             android:elevation="8dp"
             android:outlineProvider="background"
             android:padding="8dp"
@@ -49,7 +48,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/usuario"
+            android:id="@+id/userUsername"
             android:layout_width="150dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
@@ -58,10 +57,10 @@
             android:textAlignment="center"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nombre" />
+            app:layout_constraintTop_toBottomOf="@+id/nombreUsuario" />
 
         <TextView
-            android:id="@+id/correo"
+            android:id="@+id/correoElectronico"
             android:layout_width="150dp"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
@@ -69,7 +68,7 @@
             android:text="pao.amayalazo@gmail.com"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nombre" />
+            app:layout_constraintTop_toBottomOf="@+id/nombreUsuario" />
 
         <TextView
             android:id="@+id/textView4"
@@ -79,10 +78,10 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="10dp"
             android:text="I"
-            app:layout_constraintEnd_toStartOf="@+id/correo"
+            app:layout_constraintEnd_toStartOf="@+id/correoElectronico"
             app:layout_constraintHorizontal_bias="0.482"
-            app:layout_constraintStart_toEndOf="@+id/usuario"
-            app:layout_constraintTop_toBottomOf="@+id/nombre" />
+            app:layout_constraintStart_toEndOf="@+id/userUsername"
+            app:layout_constraintTop_toBottomOf="@+id/nombreUsuario" />
 
         <TextView
             android:id="@+id/txtcarrera"
@@ -96,14 +95,14 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/correo" />
+            app:layout_constraintTop_toBottomOf="@+id/correoElectronico" />
 
         <TextView
             android:id="@+id/txtcumple"
             android:layout_width="150dp"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
-            android:text="Cumpleaños"
+            android:text="Verificado"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="24sp"
@@ -111,10 +110,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/carrera" />
+            app:layout_constraintTop_toBottomOf="@+id/nombreDeCarrera" />
 
         <TextView
-            android:id="@+id/carrera"
+            android:id="@+id/nombreDeCarrera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -125,7 +124,7 @@
             app:layout_constraintTop_toBottomOf="@+id/txtcarrera" />
 
         <TextView
-            android:id="@+id/verificado"
+            android:id="@+id/usuarioVerificado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -143,7 +142,7 @@
             android:background="#FFEB3B"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/verificado" />
+            app:layout_constraintTop_toBottomOf="@+id/usuarioVerificado" />
 
         <ImageView
             android:id="@+id/btn_agggrupo"
