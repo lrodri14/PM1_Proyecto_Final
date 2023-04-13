@@ -8,11 +8,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ChatGroup implements Serializable {
+
+    private int id;
     private String mName;
     private List<String> mParticipants;
     //private List<Message> mMessages;
 
-    public ChatGroup(String name, List<String> participants) {
+    public ChatGroup(int Id, String name, List<String> participants) {
+        id = Id;
         mName = name;
         mParticipants = participants;
        // mMessages = new ArrayList<>();
@@ -26,6 +29,9 @@ public class ChatGroup implements Serializable {
         LocalDate mDate = date;
     }
 
+    public int getId() {
+        return id;
+    }
     public String getName() {
         return mName;
     }

@@ -50,12 +50,10 @@ public class ListaAmigosFragment extends Fragment {
         adapter = new ListaAmigosCustomAdapter(getContext(), R.layout.lista_item_amigo, friendList);
         FriendListView.setAdapter(adapter);
 
-        // Instantiate the RequestQueue.
+
         RequestQueue queue = Volley.newRequestQueue(getContext());
         String url = "https://api.katiosca.com/perfiles/personal";
-        System.out.println("Cargando");
 
-        // Request a string response from the provided URL.
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
@@ -73,7 +71,7 @@ public class ListaAmigosFragment extends Fragment {
                         e.printStackTrace();
                     }
                 }, error -> {
-            // Handle error
+            // Error
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -83,7 +81,6 @@ public class ListaAmigosFragment extends Fragment {
             }
         };
 
-        // Add the request to the RequestQueue.
         queue.add(request);
 
         return view;
