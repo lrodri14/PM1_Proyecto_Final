@@ -41,11 +41,11 @@ public class perfiluser extends Fragment {
         btnEdit = view.findViewById(R.id.btnEdit);
 
         tokenManager = new TokenManager(getContext());
-        usuario = view.findViewById(R.id.usuario);
-        nombre = view.findViewById(R.id.nombre);
-        correo = view.findViewById(R.id.correo);
-        carrera = view.findViewById(R.id.carrera);
-        verificado = view.findViewById(R.id.verificado);
+        usuario = view.findViewById(R.id.userUsername);
+        nombre = view.findViewById(R.id.nombreUsuario);
+        correo = view.findViewById(R.id.correoElectronico);
+        carrera = view.findViewById(R.id.nombreDeCarrera);
+        verificado = view.findViewById(R.id.usuarioVerificado);
         foto = view.findViewById(R.id.foto);
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +85,7 @@ public class perfiluser extends Fragment {
                         e.printStackTrace();
                     }
                 }, error -> {
-            // Handle error
+            // Error
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -95,7 +95,6 @@ public class perfiluser extends Fragment {
             }
         };
 
-        // Add the request to the RequestQueue.
         queue.add(request);
 
 
