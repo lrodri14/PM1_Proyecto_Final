@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -34,8 +36,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ConversacionActivity extends AppCompatActivity {
@@ -55,6 +63,12 @@ public class ConversacionActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 5;
     private static final int REQUEST_PERMISSION_RECORD_AUDIO = 6;
     private static final int REQUEST_PERMISSION_CAMERA = 7;
+
+    //Variables de media-Attachment
+    private File selectedFile;
+    private Uri selectedImageUri;
+    private Uri selectedAudioUri;
+    private Uri selectedVideoUri;
 
 
     @Override
@@ -117,42 +131,99 @@ public class ConversacionActivity extends AppCompatActivity {
 
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
-            //Se necesita encontrar el ImageView del attachment_menu
-           // ImageView imageView = findViewById(R.id.attach_imageview);
-           // imageView.setImageURI(selectedImageUri);
-            // Usa la imagen seleccionada aquí
+            // almacenar imagen
+            selectedImageUri = data.getData();
+          //  ImageView imageView = findViewById(R.id.attach_imageview);
+         //   imageView.setImageURI(selectedImageUri);
+
         }
 
         if (requestCode == REQUEST_RECORD_AUDIO && resultCode == RESULT_OK && data != null) {
-            Uri audioUri = data.getData();
-            MediaPlayer mediaPlayer = MediaPlayer.create(this, audioUri);
+            //Almacenar el video
+            selectedAudioUri = data.getData();
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, selectedAudioUri);
             mediaPlayer.start();
+
             // Usa el audio grabado aquí
-            //Se obtiene el audio atraves de mediaPlayer.
         }
 
         if (requestCode == REQUEST_RECORD_VIDEO && resultCode == RESULT_OK && data != null) {
-            Uri videoUri = data.getData();
-            //Se necesita encontrar el VideoView del attachment_menu
+            selectedVideoUri = data.getData();
             // VideoView videoView = findViewById(R.id.attach_videoview);
             // videoView.setVideoURI(videoUri);
             // videoView.start();
             // Usa el video grabado aquí
+
+            // Guardar el video en el almacenamiento local
+            ContentResolver resolver = getContentResolver();
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Video.Media.DISPLAY_NAME, "video.mp4");
+            values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+            Uri videoUri = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
+            try {
+                OutputStream os = resolver.openOutputStream(videoUri);
+                InputStream is = resolver.openInputStream(selectedVideoUri);
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = is.read(buffer)) != -1) {
+                    os.write(buffer, 0, bytesRead);
+                }
+                os.flush();
+                os.close();
+                is.close();
+                // Usa la Uri del video guardado aquí
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
 
         if (requestCode == REQUEST_SELECT_FILE && resultCode == RESULT_OK) {
             // Obtiene el archivo URI y el PATH
+
+            //Almacenar el archivo
             Uri uri = data.getData();
             String path = uri.getPath();
 
-            // Usar el archivo PATH como se necesite
-            // ...
+            try {
+                // Obtener el contenido del archivo como un InputStream
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+
+                // Crear un archivo local donde se almacenará el contenido del archivo
+                selectedFile = new File(getFilesDir(), "archivo_seleccionado");
+
+
+                // Escribir el contenido del archivo en el archivo local
+                FileOutputStream outputStream = new FileOutputStream(selectedFile);
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                outputStream.close();
+                inputStream.close();
+
+                // Actualizar la lista de elementos que se muestran en el ListView
+                File[] files = getFilesDir().listFiles();
+                List<String> fileNames = new ArrayList<>();
+                for (File file : files) {
+                    fileNames.add(file.getName());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, fileNames);
+                //Lista de los elementos
+                mChatListView.setAdapter(adapter);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+
     }
 
 
