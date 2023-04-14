@@ -67,6 +67,16 @@ public class ViewActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, miFragment).commit();
         }
 
+        nombreFragment = getIntent().getStringExtra("nombreFragment");
+        if(nombreFragment != null && nombreFragment.equals("Fragment_PerfilAmigos")){
+            usuarioId = getIntent().getIntExtra("idUsuario", 0);
+            Fragment_PerfilAmigos miFragment = new Fragment_PerfilAmigos();
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", usuarioId);
+            miFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, miFragment).commit();
+        }
+
 
     }
 }

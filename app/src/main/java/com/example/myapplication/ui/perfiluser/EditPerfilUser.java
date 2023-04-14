@@ -78,6 +78,7 @@ public class EditPerfilUser extends Fragment {
         btn_imagen = view.findViewById(R.id.btn_imagen);
         btnVolver = view.findViewById(R.id.btnVolverMenu);
         images = view.findViewById(R.id.images);
+
         btn_editar = view.findViewById(R.id.btn_editar);
         btnCambiarPass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +139,7 @@ public class EditPerfilUser extends Fragment {
 
 
                         if (data.getString("foto_de_perfil") != "null"){
-                            Picasso.get().load("https://www.api.katiosca.com" + data.getString("foto_de_perfil")).into(foto);
+                            Picasso.get().load("https://www.api.katiosca.com" + data.getString("foto_de_perfil")).into(images);
                         }
 
                     } catch (JSONException e) {

@@ -1,9 +1,11 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -49,6 +51,25 @@ public class ListaAmigosFragment extends Fragment {
         tokenManager = new TokenManager(getContext());
         adapter = new ListaAmigosCustomAdapter(getContext(), R.layout.lista_item_amigo, friendList);
         FriendListView.setAdapter(adapter);
+        FriendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Usuario usuario = (Usuario) adapterView.getItemAtPosition(position);
+                int usuarioId = usuario.getId();
+                Fragment_PerfilAmigos fragmentPerfilAmigos = new Fragment_PerfilAmigos();
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", usuarioId);
+                fragmentPerfilAmigos.setArguments(bundle);
+
+                String nombreFragment = "Fragment_PerfilAmigos";
+                Intent intent = new Intent(getContext(), ViewActivity.class);
+                intent.putExtra("nombreFragment", nombreFragment);
+                intent.putExtra("idUsuario", usuarioId);
+                startActivity(intent);
+
+
+            }
+        });
 
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -60,7 +81,7 @@ public class ListaAmigosFragment extends Fragment {
                         JSONArray jsonArray = response.getJSONObject("data").getJSONArray("siguiendo");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i).getJSONObject("usuario_seguido");
-                            Integer id = jsonObject.getJSONObject("usuario").getInt("id");
+                            Integer id = jsonObject.getInt("id");
                             String firstName = jsonObject.getJSONObject("usuario").getString("first_name");
                             String lastName = jsonObject.getJSONObject("usuario").getString("last_name");
                             String carreraNombre = jsonObject.getJSONObject("carrera").getString("nombre_carrera");

@@ -2,15 +2,14 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,7 +25,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Fragment_PerfilUsuarios extends Fragment {
+public class Fragment_PerfilAmigos extends Fragment {
 
     int userId;
     TextView usuario, nombre, correo, carrera, verificado;
@@ -36,7 +35,7 @@ public class Fragment_PerfilUsuarios extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment__perfil_usuarios, container, false);
+        View view = inflater.inflate(R.layout.fragment__perfil_amigos, container, false);
 
         tokenManager = new TokenManager(getContext());
         usuario = view.findViewById(R.id.userUsername);
@@ -55,8 +54,7 @@ public class Fragment_PerfilUsuarios extends Fragment {
         btn_agg_amigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                seguirUsuario();
-                String nombreFragment = "ListaUsuariosFragment";
+                String nombreFragment = "ListaAmigosFragment";
                 Intent intent = new Intent(getContext(), ViewActivity.class);
                 intent.putExtra("nombreFragment", nombreFragment);
                 startActivity(intent);
@@ -66,7 +64,9 @@ public class Fragment_PerfilUsuarios extends Fragment {
         btn_agg_grupo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String nombreFragment = "ListaGruposFragment";
+
+
+                String nombreFragment = "ListaAmigosFragment";
                 Intent intent = new Intent(getContext(), ViewActivity.class);
                 intent.putExtra("nombreFragment", nombreFragment);
                 startActivity(intent);

@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,7 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.myapplication.ui.perfiluser.EditPerfilUser;
 import com.example.myapplication.utilities.TokenManager;
 
 import org.jetbrains.annotations.Nullable;
@@ -125,7 +123,7 @@ public class ListaUsuariosFragment extends Fragment {
                             for (int i = 0; i < data.length(); i++) {
                                 JSONObject usuario = data.getJSONObject(i);
 
-                                int id = usuario.getJSONObject("usuario").getInt("id");
+                                int id = usuario.getInt("id");
                                 String nombre = usuario.getJSONObject("usuario").getString("first_name");
                                 String apellido = usuario.getJSONObject("usuario").getString("last_name");
                                 String carrera = usuario.getJSONObject("carrera").getString("nombre_carrera");
