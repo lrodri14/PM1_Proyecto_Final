@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -18,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -29,11 +29,10 @@ import androidx.fragment.app.Fragment;
 
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.myapplication.MenuActivity;
+import com.example.myapplication.ConversacionActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewActivity;
 import com.example.myapplication.utilities.TokenManager;
@@ -42,14 +41,20 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class EditPerfilUser extends Fragment {
 
@@ -65,6 +70,26 @@ public class EditPerfilUser extends Fragment {
     EditText usuario,nombre,apellido, correo;
 
     TokenManager tokenManager;
+
+    private class UploadFileTask extends AsyncTask<Object, Void, Void> {
+        @Override
+        protected Void doInBackground(Object... objects) {
+            String nombre = (String) objects[0];
+            String apellido = (String) objects[1];
+            String correo = (String) objects[2];
+            Bitmap bitmap = (Bitmap) objects[3];
+            try {
+                editarPerfil(nombre, apellido, correo, bitmap);
+                String nombreFragment = "perfiluser";
+                Intent intent = new Intent(getContext(), ViewActivity.class);
+                intent.putExtra("nombreFragment", nombreFragment);
+                startActivity(intent);
+            } catch (IOException | JSONException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+        }
+    }
     @SuppressLint("MissingInflatedId")
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -122,13 +147,13 @@ public class EditPerfilUser extends Fragment {
                 String nombres = nombre.getText().toString();
                 String apellidos = apellido.getText().toString();
                 String correos =correo.getText().toString();
-                registro( nombres, apellidos,correos);
+                new UploadFileTask().execute(nombres, apellidos, correos, bitmap);
             }
         });
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         String url = "https://api.katiosca.com/perfiles/personal";
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+        JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null,
                 response -> {
                     try {
                         JSONObject data = response.getJSONObject("data");
@@ -136,8 +161,6 @@ public class EditPerfilUser extends Fragment {
                         nombre.setText(user.getString("first_name"));
                         apellido.setText(user.getString("last_name"));
                         correo.setText(user.getString("email"));
-
-
                         if (data.getString("foto_de_perfil") != "null"){
                             Picasso.get().load("https://www.api.katiosca.com" + data.getString("foto_de_perfil")).into(images);
                         }
@@ -278,64 +301,47 @@ public class EditPerfilUser extends Fragment {
             }
         }
     }
-    public boolean registro(String nombres, String apellidos,String email) {
 
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = "https://api.katiosca.com/perfiles/personal";
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PATCH, url, null,
-                response -> {
-                    try {
-                        JSONObject data = response.getJSONObject("data");
-                        JSONObject user = data.getJSONObject("usuario");
-                        nombre.setText(user.getString("first_name"));
-                        apellido.setText(user.getString("last_name"));
-                        correo.setText(user.getString("email"));
-                        String nombreFragment = "perfiluser";
-                        Intent intent = new Intent(getContext(), ViewActivity.class);
-                        intent.putExtra("nombreFragment", nombreFragment);
-                        startActivity(intent);
-                        Toast toast = Toast.makeText(getContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT);
-                        toast.show();
-                        // Actualizar otros campos
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, error -> {
-            // Error
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
-                return headers;
-            }
+    private void editarPerfil(String nombre, String apellido, String correo, Bitmap bitmap) throws IOException, JSONException {
+        OkHttpClient client = new OkHttpClient();
 
-            @Override
-            public byte[] getBody() {
-                JSONObject jsonBody = new JSONObject();
-                try {
-                    jsonBody.put("first_name", nombres);
-                    jsonBody.put("last_name", apellidos);
-                    jsonBody.put("email", email);
-                    // Agregar otros campos
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
-            }
+        // create a MultipartBody.Builder to build the request body
+        MultipartBody.Builder requestBodyBuilder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("first_name", nombre)
+                .addFormDataPart("last_name", apellido)
+                .addFormDataPart("email", correo);
 
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-        };
+        // add the image file to the request body
+        if (bitmap != null) {
+            // convert the Bitmap to a byte array
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
 
-        queue.add(request);
+            // add the byte array as a file to the request body
+            requestBodyBuilder.addFormDataPart("foto_de_perfil", "imagen.jpg",
+                    RequestBody.create(MediaType.parse("image/jpeg"), byteArray));
+        }
 
-        return false;
+        RequestBody requestBody = requestBodyBuilder.build();
+
+        // create the request object
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url("https://www.api.katiosca.com/perfiles/personal")
+                .header("Authorization", "Token " + tokenManager.getAuthToken())
+                .patch(requestBody)
+                .build();
+
+        // execute the request and handle the response
+        Response response = client.newCall(request).execute();
+        if (response.isSuccessful()) {
+            String responseBody = response.body().string();
+            JSONObject jsonObject = new JSONObject(responseBody);
+            // handle the response data here
+        } else {
+            // handle the error here
+        }
     }
-
-
-
 }
 

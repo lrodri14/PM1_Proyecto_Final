@@ -162,7 +162,7 @@ public class ConversacionActivity extends AppCompatActivity{
         protected Void doInBackground(File... files) {
             try {
                 File file = files[0];
-                uploadFileWithOkHttp(file);
+                subirArchivo(file);
                 extraerMensajes(grupoId);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -456,7 +456,7 @@ public class ConversacionActivity extends AppCompatActivity{
         queue.add(request);
     }
 
-    public void uploadFileWithOkHttp(File file) throws IOException {
+    public void subirArchivo(File file) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("application/octet-stream");

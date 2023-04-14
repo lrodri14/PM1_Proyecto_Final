@@ -137,8 +137,7 @@ public class LoginFragment extends Fragment {
                 error -> {
                     if (error.networkResponse != null && error.networkResponse.data != null) {
                         try {
-                            String errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                            JSONObject errorObject = new JSONObject(errorMessage);
+                            String errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);JSONObject errorObject = new JSONObject(errorMessage);
                             String errorText = errorObject.getString("error");
                             System.out.println(errorText);
                             Toast.makeText(getContext(), errorText, Toast.LENGTH_SHORT).show();
