@@ -15,10 +15,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -31,6 +33,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.myapplication.MenuActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewActivity;
 import com.example.myapplication.utilities.TokenManager;
@@ -42,6 +45,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,7 +53,7 @@ import java.util.Map;
 
 public class EditPerfilUser extends Fragment {
 
-    ImageView btnCambiarPass, btn_imagen,images, btnVolver, foto;
+    ImageView btnCambiarPass, btn_imagen,images, btnVolver, foto, btn_editar;
     static final int Result_galeria = 101;
 
     static final  int REQUEST_IMAGE = 102;
@@ -58,7 +62,7 @@ public class EditPerfilUser extends Fragment {
     Bitmap bitmap;
 
     String currentPhotoPath;
-    TextView usuario, nombre,apellido, correo, carrera, verificado;
+    EditText usuario,nombre,apellido, correo;
 
     TokenManager tokenManager;
     @SuppressLint("MissingInflatedId")
@@ -67,7 +71,6 @@ public class EditPerfilUser extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_editperfiluser, container, false);
         tokenManager = new TokenManager(getContext());
-        usuario = view.findViewById(R.id.txtcuenta);
         nombre = view.findViewById(R.id.txtnombre);
         apellido = view.findViewById(R.id.txtapellido);
         correo = view.findViewById(R.id.txtcorreo);
@@ -75,6 +78,7 @@ public class EditPerfilUser extends Fragment {
         btn_imagen = view.findViewById(R.id.btn_imagen);
         btnVolver = view.findViewById(R.id.btnVolverMenu);
         images = view.findViewById(R.id.images);
+        btn_editar = view.findViewById(R.id.btn_editar);
         btnCambiarPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +115,15 @@ public class EditPerfilUser extends Fragment {
                 showPopupMenu(view);
             }
         });
+        btn_editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nombres = nombre.getText().toString();
+                String apellidos = apellido.getText().toString();
+                String correos =correo.getText().toString();
+                registro( nombres, apellidos,correos);
+            }
+        });
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         String url = "https://api.katiosca.com/perfiles/personal";
@@ -119,8 +132,6 @@ public class EditPerfilUser extends Fragment {
                     try {
                         JSONObject data = response.getJSONObject("data");
                         JSONObject user = data.getJSONObject("usuario");
-                        JSONObject ingenieria = data.getJSONObject("carrera");
-                        usuario.setText(user.getString("username"));
                         nombre.setText(user.getString("first_name"));
                         apellido.setText(user.getString("last_name"));
                         correo.setText(user.getString("email"));
@@ -136,6 +147,9 @@ public class EditPerfilUser extends Fragment {
                 }, error -> {
             // Error
         }) {
+
+
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
@@ -263,6 +277,64 @@ public class EditPerfilUser extends Fragment {
             }
         }
     }
+    public boolean registro(String nombres, String apellidos,String email) {
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        String url = "https://api.katiosca.com/perfiles/personal";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PATCH, url, null,
+                response -> {
+                    try {
+                        JSONObject data = response.getJSONObject("data");
+                        JSONObject user = data.getJSONObject("usuario");
+                        nombre.setText(user.getString("first_name"));
+                        apellido.setText(user.getString("last_name"));
+                        correo.setText(user.getString("email"));
+                        String nombreFragment = "perfiluser";
+                        Intent intent = new Intent(getContext(), ViewActivity.class);
+                        intent.putExtra("nombreFragment", nombreFragment);
+                        startActivity(intent);
+                        Toast toast = Toast.makeText(getContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT);
+                        toast.show();
+                        // Actualizar otros campos
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            // Error
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
+                return headers;
+            }
+
+            @Override
+            public byte[] getBody() {
+                JSONObject jsonBody = new JSONObject();
+                try {
+                    jsonBody.put("first_name", nombres);
+                    jsonBody.put("last_name", apellidos);
+                    jsonBody.put("email", email);
+                    // Agregar otros campos
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+        };
+
+        queue.add(request);
+
+        return false;
+    }
+
+
 
 }
 
