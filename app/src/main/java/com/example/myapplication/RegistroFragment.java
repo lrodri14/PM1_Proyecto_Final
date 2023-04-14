@@ -1,7 +1,26 @@
 package com.example.myapplication;
 
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.widget.Button;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
@@ -18,6 +37,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavDeepLinkBuilder;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,6 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegistroFragment extends Fragment {
+    private static final String MY_CHANNEL_ID = "myChannel";
 
     TextView textLogin; //Ir a login por si ya se tiene una cuenta
     TextView textRegistrar; //Ir a la pantalla del correo de verificación para confirmar el registro
@@ -67,10 +88,12 @@ public class RegistroFragment extends Fragment {
                     contra1.setTransformationMethod(new PasswordTransformationMethod());
                     btnVerPass.setImageResource(R.drawable.baseline_remove_red_eye_24);
                     verPass = false;
+                    createSimpleNotification();
                 } else {
                     contra1.setTransformationMethod(null);
                     btnVerPass.setImageResource(R.drawable.ojoscruzados);
                     verPass = true;
+
                 }
             }
         });
@@ -100,10 +123,11 @@ public class RegistroFragment extends Fragment {
                     String pass2 = contra2.getText().toString();
                     int carrera = spinnerCarrera.getSelectedItemPosition() + 1;
                     registro(usuario, nombres, apellidos, pass1, pass2, correo, carrera);
+                    createSimpleNotification();
                 }
             }
         });
-
+        createChannel();
         String url = "https://www.api.katiosca.com/carreras/";
         RequestQueue requestQueue;
         List<String> carreraLista = new ArrayList<>();
@@ -252,5 +276,41 @@ public class RegistroFragment extends Fragment {
         }
         return null;
     }
+    private void createChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    MY_CHANNEL_ID,
+                    "MySuperChannel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            channel.setDescription("SUSCRIBETE");
 
+            NotificationManager notificationManager =
+                    (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void createSimpleNotification() {
+        Intent intent = new Intent(getActivity(),LoginMainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(getContext(), MY_CHANNEL_ID)
+                        .setSmallIcon(R.drawable.uth_share_logo)
+                        .setContentTitle("UTH-Share")
+                        .setContentText("Registro")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText("Se te ha enviado un email de verificación, por favor revisa tu correo para culminar con el registro"))
+
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setContentIntent(pendingIntent) // Agrega aquí el PendingIntent
+                        .setAutoCancel(true);;
+
+
+        NotificationManager notificationManager =
+                (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, builder.build()
+        );
+
+    }
 }
