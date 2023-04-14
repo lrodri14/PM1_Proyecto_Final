@@ -375,6 +375,7 @@ public class ConversacionActivity extends AppCompatActivity{
                         nombreFragment = "DescripcionGrupoFragment";
                         intent = new Intent(ConversacionActivity.this, ViewActivity.class);
                         intent.putExtra("nombreFragment", nombreFragment);
+                        intent.putExtra("grupoId", grupoId);
                         startActivity(intent);
 
                         return true;
