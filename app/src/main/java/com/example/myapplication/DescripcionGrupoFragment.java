@@ -11,17 +11,32 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.myapplication.utilities.TokenManager;
+
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class DescripcionGrupoFragment extends Fragment {
 
-    private ListView ParticipantsListView;
-    private TextView nombreGrupo;
-    private DescripcionGrupoCustomAdapter adapter;
+    ListView ParticipantsListView;
+    TextView nombreGrupo;
+    DescripcionGrupoCustomAdapter adapter;
     private ImageView editarNombreGrupo;
+    int grupo_id;
+    TokenManager tokenManager;
 
     @Nullable
     @Override
@@ -31,6 +46,12 @@ public class DescripcionGrupoFragment extends Fragment {
         ParticipantsListView = view.findViewById(R.id.participants_list);
         editarNombreGrupo = view.findViewById(R.id.editNombreGrupo);
         nombreGrupo = view.findViewById(R.id.nombreGrupo);
+        tokenManager = new TokenManager(getContext());
+
+        Bundle args = getArguments();
+        if (args != null) {
+            grupo_id = args.getInt("grupoId");
+        }
 
         editarNombreGrupo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,13 +64,42 @@ public class DescripcionGrupoFragment extends Fragment {
 
 
         List<DescripcionGrupo> participantList = new ArrayList<>();
-        participantList.add(new DescripcionGrupo(R.drawable.amigo1, "Francisco Morazan ", "Lic. en Derecho", R.drawable.friendicon));
-        participantList.add(new DescripcionGrupo(R.drawable.amigo2, "Abraham Lincoln", "Ingenieria en Electricidad", R.drawable.friendicon));
-        participantList.add(new DescripcionGrupo(R.drawable.amigo3, "George Whashintong", "Ingenieria Industrial", R.drawable.friendicon));
-        participantList.add(new DescripcionGrupo(R.drawable.amigo4, "Joao Da Silva", "Lic. en Economia", R.drawable.friendicon));
+        AtomicReference<DescripcionGrupoCustomAdapter> adapter = new AtomicReference<>(new DescripcionGrupoCustomAdapter(getContext(), R.layout.lista_item_participantes, participantList));
 
-        DescripcionGrupoCustomAdapter adapter = new DescripcionGrupoCustomAdapter(getContext(), R.layout.lista_item_participantes, participantList);
-        ParticipantsListView.setAdapter(adapter);
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        String url = "https://api.katiosca.com/grupos/" +  grupo_id;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        JSONObject jsonObject = response.getJSONObject("data");
+                        String nombre = jsonObject.getString("nombre");
+                        nombreGrupo.setText(nombre);
+                        JSONArray jsonArray = jsonObject.getJSONArray("usuarios");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObj = jsonArray.getJSONObject(i);
+                            String firstName = jsonObj.getString("first_name");
+                            String lastName = jsonObj.getString("last_name");
+                            String correo = jsonObj.getString("email");
+                            participantList.add(new DescripcionGrupo(R.drawable.amigo2, firstName + " " + lastName, correo, R.drawable.friendicon));
+                        }
+                        adapter.set(new DescripcionGrupoCustomAdapter(getContext(), R.layout.lista_item_participantes, participantList));
+                        ParticipantsListView.setAdapter(adapter.get());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            // Error
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
+                return headers;
+            }
+        };
+
+        queue.add(request);
 
 
 
