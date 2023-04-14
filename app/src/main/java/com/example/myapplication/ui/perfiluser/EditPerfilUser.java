@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,18 +26,30 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewActivity;
+import com.example.myapplication.utilities.TokenManager;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditPerfilUser extends Fragment {
 
-    ImageView btnCambiarPass, btn_imagen,images, btnVolver;
+    ImageView btnCambiarPass, btn_imagen,images, btnVolver, foto;
     static final int Result_galeria = 101;
 
     static final  int REQUEST_IMAGE = 102;
@@ -45,14 +58,19 @@ public class EditPerfilUser extends Fragment {
     Bitmap bitmap;
 
     String currentPhotoPath;
+    TextView usuario, nombre,apellido, correo, carrera, verificado;
 
-
+    TokenManager tokenManager;
     @SuppressLint("MissingInflatedId")
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_editperfiluser, container, false);
-
+        tokenManager = new TokenManager(getContext());
+        usuario = view.findViewById(R.id.txtcuenta);
+        nombre = view.findViewById(R.id.txtnombre);
+        apellido = view.findViewById(R.id.txtapellido);
+        correo = view.findViewById(R.id.txtcorreo);
         btnCambiarPass = view.findViewById(R.id.btnCambiarPass);
         btn_imagen = view.findViewById(R.id.btn_imagen);
         btnVolver = view.findViewById(R.id.btnVolverMenu);
@@ -94,6 +112,39 @@ public class EditPerfilUser extends Fragment {
             }
         });
 
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        String url = "https://api.katiosca.com/perfiles/personal";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        JSONObject data = response.getJSONObject("data");
+                        JSONObject user = data.getJSONObject("usuario");
+                        JSONObject ingenieria = data.getJSONObject("carrera");
+                        usuario.setText(user.getString("username"));
+                        nombre.setText(user.getString("first_name"));
+                        apellido.setText(user.getString("last_name"));
+                        correo.setText(user.getString("email"));
+
+
+                        if (data.getString("foto_de_perfil") != "null"){
+                            Picasso.get().load("https://www.api.katiosca.com" + data.getString("foto_de_perfil")).into(foto);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            // Error
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
+                return headers;
+            }
+        };
+
+        queue.add(request);
 
 
         return view;

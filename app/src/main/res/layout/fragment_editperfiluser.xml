@@ -65,10 +65,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtcuenta4" />
+            app:layout_constraintTop_toBottomOf="@+id/txtcorreo" />
 
         <EditText
-            android:id="@+id/txtcuenta3"
+            android:id="@+id/txtapellido"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -93,10 +93,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtcuenta2" />
+            app:layout_constraintTop_toBottomOf="@+id/txtnombre" />
 
         <EditText
-            android:id="@+id/txtcuenta2"
+            android:id="@+id/txtnombre"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -170,7 +170,7 @@
             app:layout_constraintTop_toBottomOf="@+id/images" />
 
         <EditText
-            android:id="@+id/txtcuenta4"
+            android:id="@+id/txtcorreo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -197,7 +197,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtcuenta3" />
+            app:layout_constraintTop_toBottomOf="@+id/txtapellido" />
 
         <ImageView
             android:id="@+id/btn_imagen"
