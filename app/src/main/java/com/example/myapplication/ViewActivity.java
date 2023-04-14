@@ -46,6 +46,12 @@ public class ViewActivity extends AppCompatActivity {
         }
 
         nombreFragment = getIntent().getStringExtra("nombreFragment");
+        if(nombreFragment != null && nombreFragment.equals("ListaArchivosGruposFragment")){
+            ListaArchivosGruposFragment miFragment = new ListaArchivosGruposFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, miFragment).commit();
+        }
+
+        nombreFragment = getIntent().getStringExtra("nombreFragment");
         if(nombreFragment != null && nombreFragment.equals("ListaGruposFragment")){
             ListaGruposFragment miFragment = new ListaGruposFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, miFragment).commit();

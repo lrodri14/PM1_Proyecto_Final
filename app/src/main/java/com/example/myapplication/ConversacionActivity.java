@@ -171,6 +171,7 @@ public class ConversacionActivity extends AppCompatActivity {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
                 while ((bytesRead = is.read(buffer)) != -1) {
+
                     os.write(buffer, 0, bytesRead);
                 }
                 os.flush();
@@ -334,11 +335,16 @@ public class ConversacionActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.menu_archivos:
 
+                        String nombreFragment = "ListaArchivosGruposFragment";
+                        Intent intent = new Intent(ConversacionActivity.this, ViewActivity.class);
+                        intent.putExtra("nombreFragment", nombreFragment);
+                        startActivity(intent);
+
                         return true;
                     case R.id.menu_descripcion:
 
-                        String nombreFragment = "DescripcionGrupoFragment";
-                        Intent intent = new Intent(ConversacionActivity.this, ViewActivity.class);
+                        nombreFragment = "DescripcionGrupoFragment";
+                        intent = new Intent(ConversacionActivity.this, ViewActivity.class);
                         intent.putExtra("nombreFragment", nombreFragment);
                         startActivity(intent);
 
