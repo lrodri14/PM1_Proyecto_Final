@@ -88,7 +88,7 @@ public class RegistroFragment extends Fragment {
                     contra1.setTransformationMethod(new PasswordTransformationMethod());
                     btnVerPass.setImageResource(R.drawable.baseline_remove_red_eye_24);
                     verPass = false;
-                    createSimpleNotification();
+//                    createSimpleNotification();
                 } else {
                     contra1.setTransformationMethod(null);
                     btnVerPass.setImageResource(R.drawable.ojoscruzados);
@@ -123,11 +123,11 @@ public class RegistroFragment extends Fragment {
                     String pass2 = contra2.getText().toString();
                     int carrera = spinnerCarrera.getSelectedItemPosition() + 1;
                     registro(usuario, nombres, apellidos, pass1, pass2, correo, carrera);
-                    createSimpleNotification();
+//                    createSimpleNotification();
                 }
             }
         });
-        createChannel();
+//        createChannel();
         String url = "https://www.api.katiosca.com/carreras/";
         RequestQueue requestQueue;
         List<String> carreraLista = new ArrayList<>();
@@ -276,41 +276,41 @@ public class RegistroFragment extends Fragment {
         }
         return null;
     }
-    private void createChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    MY_CHANNEL_ID,
-                    "MySuperChannel",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            channel.setDescription("SUSCRIBETE");
+//    private void createChannel() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            NotificationChannel channel = new NotificationChannel(
+//                    MY_CHANNEL_ID,
+//                    "MySuperChannel",
+//                    NotificationManager.IMPORTANCE_DEFAULT
+//            );
+//            channel.setDescription("SUSCRIBETE");
+//
+//            NotificationManager notificationManager =
+//                    (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+//            notificationManager.createNotificationChannel(channel);
+//        }
+//    }
 
-            NotificationManager notificationManager =
-                    (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
-
-    private void createSimpleNotification() {
-        Intent intent = new Intent(getActivity(),LoginMainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(getContext(), MY_CHANNEL_ID)
-                        .setSmallIcon(R.drawable.uth_share_logo)
-                        .setContentTitle("UTH-Share")
-                        .setContentText("Registro")
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText("Se te ha enviado un email de verificación, por favor revisa tu correo para culminar con el registro"))
-
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                        .setContentIntent(pendingIntent) // Agrega aquí el PendingIntent
-                        .setAutoCancel(true);;
-
-
-        NotificationManager notificationManager =
-                (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1, builder.build()
-        );
-
-    }
+//    private void createSimpleNotification() {
+//        Intent intent = new Intent(getActivity(),LoginMainActivity.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        NotificationCompat.Builder builder =
+//                new NotificationCompat.Builder(getContext(), MY_CHANNEL_ID)
+//                        .setSmallIcon(R.drawable.uth_share_logo)
+//                        .setContentTitle("UTH-Share")
+//                        .setContentText("Registro")
+//                        .setStyle(new NotificationCompat.BigTextStyle()
+//                                .bigText("Se te ha enviado un email de verificación, por favor revisa tu correo para culminar con el registro"))
+//
+//                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//                        .setContentIntent(pendingIntent) // Agrega aquí el PendingIntent
+//                        .setAutoCancel(true);;
+//
+//
+//        NotificationManager notificationManager =
+//                (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+//        notificationManager.notify(1, builder.build()
+//        );
+//
+//    }
 }

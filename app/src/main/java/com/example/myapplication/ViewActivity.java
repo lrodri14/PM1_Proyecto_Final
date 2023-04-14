@@ -60,6 +60,9 @@ public class ViewActivity extends AppCompatActivity {
         nombreFragment = getIntent().getStringExtra("nombreFragment");
         if(nombreFragment != null && nombreFragment.equals("ListaGruposFragment")){
             ListaGruposFragment miFragment = new ListaGruposFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("grupoId", getIntent().getIntExtra("grupoId", 0));
+            miFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, miFragment).commit();
         }
 
