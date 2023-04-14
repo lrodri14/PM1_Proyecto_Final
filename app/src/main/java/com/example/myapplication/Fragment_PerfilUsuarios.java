@@ -50,6 +50,7 @@ public class Fragment_PerfilUsuarios extends Fragment {
 
         if (getArguments() != null) {
             userId = getArguments().getInt("id");
+            System.out.println(userId);
         }
 
         btn_agg_amigo.setOnClickListener(new View.OnClickListener() {
