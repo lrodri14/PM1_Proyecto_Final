@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Gravity;
@@ -28,7 +29,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.documentfile.provider.DocumentFile;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
+import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -38,7 +39,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,7 +52,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ConversacionActivity extends AppCompatActivity {
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+
+public class ConversacionActivity extends AppCompatActivity{
+
+    private class MyAsyncTask extends AsyncTask<File, Void, Void> {
+
+        @Override
+        protected Void doInBackground(File... files) {
+            // Your code here
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            // Your code here
+        }
+    }
 
     private ListView mChatListView;
     private ArrayList<String> mChatMessages;
@@ -131,6 +157,20 @@ public class ConversacionActivity extends AppCompatActivity {
 
     }
 
+    private class UploadFileTask extends AsyncTask<File, Void, Void> {
+        @Override
+        protected Void doInBackground(File... files) {
+            try {
+                File file = files[0];
+                uploadFileWithOkHttp(file);
+                extraerMensajes(grupoId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -193,13 +233,14 @@ public class ConversacionActivity extends AppCompatActivity {
             DocumentFile documentFile = DocumentFile.fromSingleUri(this, uri);
             String originalFileName = documentFile.getName();
 
-
             try {
                 // Obtener el contenido del archivo como un InputStream
                 InputStream inputStream = getContentResolver().openInputStream(uri);
 
                 // Crear un archivo local donde se almacenará el contenido del archivo
                 selectedFile = new File(getFilesDir(), originalFileName);
+                new UploadFileTask().execute(selectedFile);
+
 
                 // Escribir el contenido del archivo en el archivo local
                 FileOutputStream outputStream = new FileOutputStream(selectedFile);
@@ -210,19 +251,6 @@ public class ConversacionActivity extends AppCompatActivity {
                 }
                 outputStream.close();
                 inputStream.close();
-
-                // Actualizar la lista de elementos que se muestran en el ListView
-                File[] files = getFilesDir().listFiles();
-
-
-                for (File file : files) {
-                    mChatMessages.add(file.getName());
-                }
-                mChatListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mChatMessages);
-                //------ Configura el ListView----------------
-                mChatListView = findViewById(R.id.message_listview);
-                mChatListView.setAdapter(mChatListAdapter);
-                mChatListAdapter.notifyDataSetChanged();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -338,6 +366,7 @@ public class ConversacionActivity extends AppCompatActivity {
                         String nombreFragment = "ListaArchivosGruposFragment";
                         Intent intent = new Intent(ConversacionActivity.this, ViewActivity.class);
                         intent.putExtra("nombreFragment", nombreFragment);
+                        intent.putExtra("grupoId", grupoId);
                         startActivity(intent);
 
                         return true;
@@ -347,7 +376,6 @@ public class ConversacionActivity extends AppCompatActivity {
                         intent = new Intent(ConversacionActivity.this, ViewActivity.class);
                         intent.putExtra("nombreFragment", nombreFragment);
                         startActivity(intent);
-
 
                         return true;
                     default:
@@ -363,7 +391,7 @@ public class ConversacionActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://api.katiosca.com/chats/" + grupoId;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+        JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null,
                 response -> {
                     try {
                         mChatMessages = new ArrayList<>();
@@ -408,7 +436,7 @@ public class ConversacionActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+        JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.POST, url, requestBody,
                 response -> {
                     extraerMensajes(grupoId);
                 },
@@ -426,5 +454,31 @@ public class ConversacionActivity extends AppCompatActivity {
 
         queue.add(request);
     }
+
+    public void uploadFileWithOkHttp(File file) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        MediaType mediaType = MediaType.parse("application/octet-stream");
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("archivo", file.getName(), RequestBody.create(mediaType, file))
+                .build();
+
+        Request request = new Request.Builder()
+                .url("https://www.api.katiosca.com/archivos/" + grupoId)
+                .addHeader("Authorization", "Token " + tokenManager.getAuthToken())
+                .post(requestBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (!response.isSuccessful()) {
+            throw new IOException("Unexpected code " + response);
+        }
+
+        // Process the response body if needed
+        String responseBody = response.body().string();
+    }
+
 
 }
