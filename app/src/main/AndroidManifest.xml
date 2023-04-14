@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-feature
@@ -41,11 +41,14 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/uthboxlogo"
+        android:icon="@mipmap/uth_share_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+        <activity
+            android:name=".LoginMainActivity"
+            android:exported="false" />
         <activity
             android:name=".ViewActivity"
             android:exported="false" />
@@ -56,9 +59,9 @@
             android:name=".ConversacionActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMainActivity"
+            android:name=".PantallaSplash"
             android:exported="true"
-            android:label="@string/app_name"
+            android:label="UTH-Share"
             android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

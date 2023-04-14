@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:layout_margin="16dp"
+    android:background="@drawable/rounded_background"
+    android:elevation="8dp"
+    android:padding="16dp"
     tools:context="LoginFragment">
 
 
     <EditText
         android:id="@+id/txtPass"
-        android:layout_width="290dp"
+        android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
@@ -20,15 +23,14 @@
         android:inputType="textPassword"
         android:textColor="@color/gris_font"
         android:textColorHint="@color/gris_claro"
-        app:layout_constraintEnd_toStartOf="@+id/btnVerPass"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/btnRegistro"
-        android:layout_width="132dp"
+        android:layout_width="0dp"
         android:layout_height="19dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="40dp"
         android:fontFamily="@font/asap_bold"
@@ -71,21 +73,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13"
-        app:tint="@color/gris_font" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:fontFamily="@font/asap_semibold"
-        android:text="UTH SHARE APP"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Logo"
         app:tint="@color/gris_font" />
 
@@ -110,17 +97,17 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="42dp"
         android:background="@color/white"
         android:scaleType="fitCenter"
         android:src="@drawable/baseline_remove_red_eye_24"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtPass"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         app:tint="@color/gris_claro" />
 
     <TextView
         android:id="@+id/btnCambiarContrasena"
-        android:layout_width="198dp"
+        android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="12dp"
@@ -170,7 +157,7 @@
         android:layout_width="200dp"
         android:layout_height="150dp"
         android:layout_marginTop="30dp"
-        android:src="@drawable/logo_uth"
+        android:src="@drawable/uth_share_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

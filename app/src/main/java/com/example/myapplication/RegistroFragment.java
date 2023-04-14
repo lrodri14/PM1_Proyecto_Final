@@ -163,35 +163,32 @@ public class RegistroFragment extends Fragment {
 
 
         if (TextUtils.isEmpty(username)) {
-            Toast.makeText(getContext(), "Ingrese su número de cuenta", Toast.LENGTH_SHORT).show();
+            user.setError("Ingrese su número de cuenta");
             return false;
         }
         if (TextUtils.isEmpty(password1)) {
-            Toast.makeText(getContext(), "Ingrese una contraseña", Toast.LENGTH_SHORT).show();
+            contra1.setError("Ingrese una contraseña");
             return false;
         }
         if (TextUtils.isEmpty(password2)) {
-            Toast.makeText(getContext(), "Ingrese la validación de la contraseña", Toast.LENGTH_SHORT).show();
+            contra2.setError("Ingrese la confrimación de la contraseña");
             return false;
         }
         if (TextUtils.isEmpty(nombreuser)) {
-            Toast.makeText(getContext(), "Ingrese su nombre completo", Toast.LENGTH_SHORT).show();
+            nombre.setError("Ingrese su nombre completo");
             return false;
         }
         if (TextUtils.isEmpty(apellidouser)) {
-            Toast.makeText(getContext(), "Ingrese su apellido completo", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (TextUtils.isEmpty(password2)) {
-            Toast.makeText(getContext(), "Ingrese la validación de la contraseña", Toast.LENGTH_SHORT).show();
+            apellido.setError("Ingrese su apellido completo");
             return false;
         }
         if (TextUtils.isEmpty(correo)) {
-            Toast.makeText(getContext(), "Ingrese su correo", Toast.LENGTH_SHORT).show();
+           email.setError("Ingrese su correo");
             return false;
         }
         if (!password1.equals(password2)) {
-            Toast.makeText(getContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+           contra1.setError("Las contraseñas no coinciden");
+           contra2.setError("Las contraseñas no coinciden");
             return false;
         }
 

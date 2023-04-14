@@ -1,11 +1,14 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Gravity;
@@ -17,14 +20,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
+import androidx.documentfile.provider.DocumentFile;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
+import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -34,11 +39,42 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class ConversacionActivity extends AppCompatActivity {
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+
+public class ConversacionActivity extends AppCompatActivity{
+
+    private class MyAsyncTask extends AsyncTask<File, Void, Void> {
+
+        @Override
+        protected Void doInBackground(File... files) {
+            // Your code here
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            // Your code here
+        }
+    }
 
     private ListView mChatListView;
     private ArrayList<String> mChatMessages;
@@ -56,6 +92,12 @@ public class ConversacionActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION_RECORD_AUDIO = 6;
     private static final int REQUEST_PERMISSION_CAMERA = 7;
 
+    //Variables de media-Attachment
+    private File selectedFile;
+    private Uri selectedImageUri;
+    private Uri selectedAudioUri;
+    private Uri selectedVideoUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +105,6 @@ public class ConversacionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_conversation);
         tokenManager = new TokenManager(this);
         grupoId = getIntent().getIntExtra("chatGroupId", -1);
-
-
 
         ActionBar actionBar = getSupportActionBar();
         ImageView puntos = new ImageView(this);
@@ -117,42 +157,107 @@ public class ConversacionActivity extends AppCompatActivity {
 
     }
 
+    private class UploadFileTask extends AsyncTask<File, Void, Void> {
+        @Override
+        protected Void doInBackground(File... files) {
+            try {
+                File file = files[0];
+                uploadFileWithOkHttp(file);
+                extraerMensajes(grupoId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
-            //Se necesita encontrar el ImageView del attachment_menu
-           // ImageView imageView = findViewById(R.id.attach_imageview);
-           // imageView.setImageURI(selectedImageUri);
-            // Usa la imagen seleccionada aquí
+            // almacenar imagen
+            selectedImageUri = data.getData();
+          //  ImageView imageView = findViewById(R.id.attach_imageview);
+         //   imageView.setImageURI(selectedImageUri);
+
         }
 
         if (requestCode == REQUEST_RECORD_AUDIO && resultCode == RESULT_OK && data != null) {
-            Uri audioUri = data.getData();
-            MediaPlayer mediaPlayer = MediaPlayer.create(this, audioUri);
+            //Almacenar el video
+            selectedAudioUri = data.getData();
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, selectedAudioUri);
             mediaPlayer.start();
+
             // Usa el audio grabado aquí
-            //Se obtiene el audio atraves de mediaPlayer.
         }
 
         if (requestCode == REQUEST_RECORD_VIDEO && resultCode == RESULT_OK && data != null) {
-            Uri videoUri = data.getData();
-            //Se necesita encontrar el VideoView del attachment_menu
+            selectedVideoUri = data.getData();
             // VideoView videoView = findViewById(R.id.attach_videoview);
             // videoView.setVideoURI(videoUri);
             // videoView.start();
             // Usa el video grabado aquí
+
+            // Guardar el video en el almacenamiento local
+            ContentResolver resolver = getContentResolver();
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Video.Media.DISPLAY_NAME, "video.mp4");
+            values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+            Uri videoUri = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
+            try {
+                OutputStream os = resolver.openOutputStream(videoUri);
+                InputStream is = resolver.openInputStream(selectedVideoUri);
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = is.read(buffer)) != -1) {
+
+                    os.write(buffer, 0, bytesRead);
+                }
+                os.flush();
+                os.close();
+                is.close();
+                // Usa la Uri del video guardado aquí
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
 
         if (requestCode == REQUEST_SELECT_FILE && resultCode == RESULT_OK) {
             // Obtiene el archivo URI y el PATH
+
+            //Almacenar el archivo
             Uri uri = data.getData();
             String path = uri.getPath();
+            DocumentFile documentFile = DocumentFile.fromSingleUri(this, uri);
+            String originalFileName = documentFile.getName();
 
-            // Usar el archivo PATH como se necesite
-            // ...
+            try {
+                // Obtener el contenido del archivo como un InputStream
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+
+                // Crear un archivo local donde se almacenará el contenido del archivo
+                selectedFile = new File(getFilesDir(), originalFileName);
+                new UploadFileTask().execute(selectedFile);
+
+
+                // Escribir el contenido del archivo en el archivo local
+                FileOutputStream outputStream = new FileOutputStream(selectedFile);
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                outputStream.close();
+                inputStream.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+
     }
 
 
@@ -209,7 +314,7 @@ public class ConversacionActivity extends AppCompatActivity {
                             // Si el permiso se ha concedido, iniciar la actividad para seleccionar un archivo de los documentos
                             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                             intent.setType("*/*"); // Permitir seleccionar cualquier tipo de archivo
-                            startActivityForResult(intent, 1);
+                            startActivityForResult(intent, 4);
                         }
                         return true;
                     case R.id.menu_audio:
@@ -258,14 +363,19 @@ public class ConversacionActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.menu_archivos:
 
+                        String nombreFragment = "ListaArchivosGruposFragment";
+                        Intent intent = new Intent(ConversacionActivity.this, ViewActivity.class);
+                        intent.putExtra("nombreFragment", nombreFragment);
+                        intent.putExtra("grupoId", grupoId);
+                        startActivity(intent);
+
                         return true;
                     case R.id.menu_descripcion:
 
-                        String nombreFragment = "DescripcionGrupoFragment";
-                        Intent intent = new Intent(ConversacionActivity.this, ViewActivity.class);
+                        nombreFragment = "DescripcionGrupoFragment";
+                        intent = new Intent(ConversacionActivity.this, ViewActivity.class);
                         intent.putExtra("nombreFragment", nombreFragment);
                         startActivity(intent);
-
 
                         return true;
                     default:
@@ -281,7 +391,7 @@ public class ConversacionActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://api.katiosca.com/chats/" + grupoId;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+        JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null,
                 response -> {
                     try {
                         mChatMessages = new ArrayList<>();
@@ -326,7 +436,7 @@ public class ConversacionActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+        JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.POST, url, requestBody,
                 response -> {
                     extraerMensajes(grupoId);
                 },
@@ -344,5 +454,31 @@ public class ConversacionActivity extends AppCompatActivity {
 
         queue.add(request);
     }
+
+    public void uploadFileWithOkHttp(File file) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        MediaType mediaType = MediaType.parse("application/octet-stream");
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("archivo", file.getName(), RequestBody.create(mediaType, file))
+                .build();
+
+        Request request = new Request.Builder()
+                .url("https://www.api.katiosca.com/archivos/" + grupoId)
+                .addHeader("Authorization", "Token " + tokenManager.getAuthToken())
+                .post(requestBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (!response.isSuccessful()) {
+            throw new IOException("Unexpected code " + response);
+        }
+
+        // Process the response body if needed
+        String responseBody = response.body().string();
+    }
+
 
 }

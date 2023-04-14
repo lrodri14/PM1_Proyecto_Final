@@ -125,11 +125,11 @@ public class ListaUsuariosFragment extends Fragment {
                             for (int i = 0; i < data.length(); i++) {
                                 JSONObject usuario = data.getJSONObject(i);
 
-                                int id = usuario.getJSONObject("usuario").getInt("id");
+                                int id = usuario.getInt("id");
                                 String nombre = usuario.getJSONObject("usuario").getString("first_name");
                                 String apellido = usuario.getJSONObject("usuario").getString("last_name");
                                 String carrera = usuario.getJSONObject("carrera").getString("nombre_carrera");
-                                int imageResourceId = R.drawable.usuario3;
+                                int imageResourceId = R.drawable.perfil;
                                 int iconResourceId = R.drawable.agregar_usuario;
 
                                 String nombreCompleto = nombre + " " + apellido;

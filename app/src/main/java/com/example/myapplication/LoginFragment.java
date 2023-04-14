@@ -101,12 +101,12 @@ public class LoginFragment extends Fragment {
         String password = contra.getText().toString().trim();
 
         if (TextUtils.isEmpty(username)) {
-            Toast.makeText(getContext(), "Ingrese su usuario", Toast.LENGTH_SHORT).show();
+           user.setError( "Ingrese su numero de cuenta");
             return false;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getContext(), "Ingrese su contraseña", Toast.LENGTH_SHORT).show();
+            contra.setError("Ingrese su contraseña");
             return false;
         }
 

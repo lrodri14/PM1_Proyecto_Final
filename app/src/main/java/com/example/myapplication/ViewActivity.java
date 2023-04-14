@@ -40,6 +40,27 @@ public class ViewActivity extends AppCompatActivity {
         }
 
         nombreFragment = getIntent().getStringExtra("nombreFragment");
+        if(nombreFragment != null && nombreFragment.equals("ListaUsuariosFragment")){
+            ListaUsuariosFragment miFragment = new ListaUsuariosFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, miFragment).commit();
+        }
+
+        nombreFragment = getIntent().getStringExtra("nombreFragment");
+        if(nombreFragment != null && nombreFragment.equals("ListaArchivosGruposFragment")){
+            ListaArchivosGruposFragment miFragment = new ListaArchivosGruposFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("grupoId", getIntent().getIntExtra("grupoId", 0));
+            miFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, miFragment).commit();
+        }
+
+        nombreFragment = getIntent().getStringExtra("nombreFragment");
+        if(nombreFragment != null && nombreFragment.equals("ListaGruposFragment")){
+            ListaGruposFragment miFragment = new ListaGruposFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, miFragment).commit();
+        }
+
+        nombreFragment = getIntent().getStringExtra("nombreFragment");
         if(nombreFragment != null && nombreFragment.equals("Fragment_PerfilUsuarios")){
             usuarioId = getIntent().getIntExtra("idUsuario", 0);
             Fragment_PerfilUsuarios miFragment = new Fragment_PerfilUsuarios();

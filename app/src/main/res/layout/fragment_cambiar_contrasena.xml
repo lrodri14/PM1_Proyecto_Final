@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fondo_gris_azulado"
+    android:layout_margin="16dp"
+    android:background="@drawable/rounded_background"
+    android:elevation="8dp"
+    android:padding="16dp"
     tools:context=".CambioContrasenaLoginFragment">
 
     <ImageView
@@ -15,11 +18,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnVolverLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/btnVolverMenu" />
 
     <EditText
         android:id="@+id/txtPass2"
-        android:layout_width="290dp"
+        android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="12dp"
@@ -29,8 +32,6 @@
         android:inputType="textPassword"
         android:textColor="@color/gris_font"
         android:textColorHint="@color/gris_claro"
-        app:layout_constraintEnd_toStartOf="@+id/btnVerPass"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
@@ -39,11 +40,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="40dp"
-        android:background="@color/fondo_gris_azulado"
+        android:background="@color/white"
         android:scaleType="fitCenter"
         android:src="@drawable/baseline_remove_red_eye_24"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtPass2"
         app:layout_constraintTop_toBottomOf="@+id/textView28"
         app:tint="@color/gris_claro" />
 
@@ -83,7 +84,7 @@
 
     <EditText
         android:id="@+id/txtPass3"
-        android:layout_width="290dp"
+        android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
@@ -93,8 +94,6 @@
         android:inputType="textPassword"
         android:textColor="@color/gris_font"
         android:textColorHint="@color/gris_claro"
-        app:layout_constraintEnd_toStartOf="@+id/btnVerPass"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
@@ -119,17 +118,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="40dp"
-        android:background="@color/fondo_gris_azulado"
+        android:background="@color/white"
         android:scaleType="fitCenter"
         android:src="@drawable/baseline_remove_red_eye_24"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtPass3"
         app:layout_constraintTop_toBottomOf="@+id/textView18"
         app:tint="@color/gris_claro" />
 
     <EditText
         android:id="@+id/txtActualContrasena"
-        android:layout_width="290dp"
+        android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
@@ -139,8 +138,6 @@
         android:inputType="textPassword"
         android:textColor="@color/gris_font"
         android:textColorHint="@color/gris_claro"
-        app:layout_constraintEnd_toStartOf="@+id/btnVerPass"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -149,11 +146,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
-        android:background="@color/fondo_gris_azulado"
+        android:background="@color/white"
         android:scaleType="fitCenter"
         android:src="@drawable/baseline_remove_red_eye_24"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtActualContrasena"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:tint="@color/gris_claro" />
 
@@ -174,13 +171,14 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
     <ImageView
-        android:id="@+id/btnVolverLogin"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:id="@+id/btnVolverMenu"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/atras"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

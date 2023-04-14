@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -50,14 +51,30 @@ public class Fragment_PerfilUsuarios extends Fragment {
 
         if (getArguments() != null) {
             userId = getArguments().getInt("id");
+            System.out.println(userId);
         }
 
         btn_agg_amigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 seguirUsuario();
+                String nombreFragment = "ListaUsuariosFragment";
+                Intent intent = new Intent(getContext(), ViewActivity.class);
+                intent.putExtra("nombreFragment", nombreFragment);
+                startActivity(intent);
             }
         });
+
+        btn_agg_grupo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String nombreFragment = "ListaGruposFragment";
+                Intent intent = new Intent(getContext(), ViewActivity.class);
+                intent.putExtra("nombreFragment", nombreFragment);
+                startActivity(intent);
+            }
+        });
+
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         String url = "https://api.katiosca.com/perfiles/" + userId;
