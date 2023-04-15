@@ -73,12 +73,12 @@ public class ListaAmigosFragment extends Fragment {
 
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = "https://api.katiosca.com/perfiles/personal";
+        String url = "https://api.katiosca.com/perfiles/personal/seguidos";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
-                        JSONArray jsonArray = response.getJSONObject("data").getJSONArray("siguiendo");
+                        JSONArray jsonArray = response.getJSONArray("data");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i).getJSONObject("usuario_seguido");
                             Integer id = jsonObject.getInt("id");
