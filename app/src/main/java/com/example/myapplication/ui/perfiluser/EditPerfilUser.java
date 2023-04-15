@@ -99,31 +99,31 @@ public class EditPerfilUser extends Fragment {
         nombre = view.findViewById(R.id.txtnombre);
         apellido = view.findViewById(R.id.txtapellido);
         correo = view.findViewById(R.id.txtcorreo);
-        btnCambiarPass = view.findViewById(R.id.btnCambiarPass);
-        btn_imagen = view.findViewById(R.id.btn_imagen);
+//        btnCambiarPass = view.findViewById(R.id.btnCambiarPass);
+//        btn_imagen = view.findViewById(R.id.btn_imagen);
         btnVolver = view.findViewById(R.id.btnVolverMenu);
         images = view.findViewById(R.id.images);
 
         btn_editar = view.findViewById(R.id.btn_editar);
-        btnCambiarPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nombreFragment = "CambioContrasenaFragment";
-                Intent intent = new Intent(getContext(), ViewActivity.class);
-                intent.putExtra("nombreFragment", nombreFragment);
-                startActivity(intent);
-            }
-        });
+//        btnCambiarPass.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String nombreFragment = "CambioContrasenaFragment";
+//                Intent intent = new Intent(getContext(), ViewActivity.class);
+//                intent.putExtra("nombreFragment", nombreFragment);
+//                startActivity(intent);
+//            }
+//        });
 
-        btnCambiarPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nombreFragment = "CambioContrasenaFragment";
-                Intent intent = new Intent(getContext(), ViewActivity.class);
-                intent.putExtra("nombreFragment", nombreFragment);
-                startActivity(intent);
-            }
-        });
+//        btnCambiarPass.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String nombreFragment = "CambioContrasenaFragment";
+//                Intent intent = new Intent(getContext(), ViewActivity.class);
+//                intent.putExtra("nombreFragment", nombreFragment);
+//                startActivity(intent);
+//            }
+//        });
 
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,12 +135,12 @@ public class EditPerfilUser extends Fragment {
             }
         });
 
-        btn_imagen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopupMenu(view);
-            }
-        });
+//        btn_imagen.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showPopupMenu(view);
+//            }
+//        });
         btn_editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

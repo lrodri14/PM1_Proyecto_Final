@@ -126,6 +126,7 @@ public class Fragment_PerfilUsuarios extends Fragment {
         JSONObject requestBody = new JSONObject();
 
         try {
+            System.out.println(userId);
             requestBody.put("usuario_seguido", userId);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -139,7 +140,7 @@ public class Fragment_PerfilUsuarios extends Fragment {
                         Toast.makeText(getContext(), "Error al intentar seguir usuario.", Toast.LENGTH_SHORT).show();
                     }
                 }, error -> {
-            Toast.makeText(getContext(), "Error al intentar seguir usuario.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Error al intentar seguir usuario.", Toast.LENGTH_SHORT).show();
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
