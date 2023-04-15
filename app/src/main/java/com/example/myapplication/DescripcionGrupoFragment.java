@@ -44,7 +44,7 @@ public class DescripcionGrupoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_descripcion_grupo, container, false);
 
         ParticipantsListView = view.findViewById(R.id.participants_list);
-        editarNombreGrupo = view.findViewById(R.id.editNombreGrupo);
+//        editarNombreGrupo = view.findViewById(R.id.editNombreGrupo);
         nombreGrupo = view.findViewById(R.id.nombreGrupo);
         tokenManager = new TokenManager(getContext());
 
@@ -53,14 +53,14 @@ public class DescripcionGrupoFragment extends Fragment {
             grupo_id = args.getInt("grupoId");
         }
 
-        editarNombreGrupo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CambiarNombreGrupoFragment fragmentNombreGrupo = new CambiarNombreGrupoFragment();
-                fragmentNombreGrupo.setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogTheme);
-                fragmentNombreGrupo.show(getActivity().getSupportFragmentManager(), "CambiarNombreGrupoFragment");
-            }
-        });
+//        editarNombreGrupo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                CambiarNombreGrupoFragment fragmentNombreGrupo = new CambiarNombreGrupoFragment();
+//                fragmentNombreGrupo.setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogTheme);
+//                fragmentNombreGrupo.show(getActivity().getSupportFragmentManager(), "CambiarNombreGrupoFragment");
+//            }
+//        });
 
 
         List<DescripcionGrupo> participantList = new ArrayList<>();

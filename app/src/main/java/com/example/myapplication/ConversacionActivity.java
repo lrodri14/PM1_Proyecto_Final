@@ -289,19 +289,6 @@ public class ConversacionActivity extends AppCompatActivity{
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.menu_image:
-                        // Verificar si se ha concedido permiso para acceder a la galería
-                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
-                            ActivityCompat.requestPermissions(ConversacionActivity.this,
-                                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                                    REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
-                        } else {
-                            // Si el permiso se ha concedido, iniciar la actividad para seleccionar una imagen de la galería
-                            selectImageFromGallery();
-                        }
-                        return true;
                     case R.id.menu_document:
                         // Verificar si se ha concedido permiso para acceder a los documentos
                         if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -317,33 +304,6 @@ public class ConversacionActivity extends AppCompatActivity{
                             startActivityForResult(intent, 4);
                         }
                         return true;
-                    case R.id.menu_audio:
-                        // Verificar si se ha concedido permiso para grabar audio
-                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.RECORD_AUDIO)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
-                            ActivityCompat.requestPermissions(ConversacionActivity.this,
-                                    new String[]{android.Manifest.permission.RECORD_AUDIO},
-                                    REQUEST_PERMISSION_RECORD_AUDIO);
-                        } else {
-                            // Si el permiso se ha concedido, iniciar la actividad para grabar audio
-                            recordAudio();
-                        }
-                        return true;
-                    case R.id.menu_video:
-                        // Verificar si se ha concedido permiso para acceder a la cámara
-                        if (ActivityCompat.checkSelfPermission(ConversacionActivity.this, android.Manifest.permission.CAMERA)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            // Si el permiso no se ha concedido, solicitar al usuario que lo conceda
-                            ActivityCompat.requestPermissions(ConversacionActivity.this,
-                                    new String[]{Manifest.permission.CAMERA},
-                                    REQUEST_PERMISSION_CAMERA);
-                        } else {
-                            // Si el permiso se ha concedido, iniciar la actividad para grabar un video
-                            recordVideo();
-                        }
-                        return true;
-
                     default:
                         return false;
                 }
