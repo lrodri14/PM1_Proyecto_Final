@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -99,31 +100,22 @@ public class EditPerfilUser extends Fragment {
         nombre = view.findViewById(R.id.txtnombre);
         apellido = view.findViewById(R.id.txtapellido);
         correo = view.findViewById(R.id.txtcorreo);
-//        btnCambiarPass = view.findViewById(R.id.btnCambiarPass);
-//        btn_imagen = view.findViewById(R.id.btn_imagen);
+        btnCambiarPass = view.findViewById(R.id.btnCambiarPass);
+        btn_imagen = view.findViewById(R.id.btn_imagen);
         btnVolver = view.findViewById(R.id.btnVolverMenu);
         images = view.findViewById(R.id.images);
 
         btn_editar = view.findViewById(R.id.btn_editar);
-//        btnCambiarPass.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String nombreFragment = "CambioContrasenaFragment";
-//                Intent intent = new Intent(getContext(), ViewActivity.class);
-//                intent.putExtra("nombreFragment", nombreFragment);
-//                startActivity(intent);
-//            }
-//        });
 
-//        btnCambiarPass.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String nombreFragment = "CambioContrasenaFragment";
-//                Intent intent = new Intent(getContext(), ViewActivity.class);
-//                intent.putExtra("nombreFragment", nombreFragment);
-//                startActivity(intent);
-//            }
-//        });
+     btnCambiarPass.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+             String nombreFragment = "CambioContrasenaFragment";
+            Intent intent = new Intent(getContext(), ViewActivity.class);
+            intent.putExtra("nombreFragment", nombreFragment);
+              startActivity(intent);
+           }
+      });
 
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,18 +127,19 @@ public class EditPerfilUser extends Fragment {
             }
         });
 
-//        btn_imagen.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                showPopupMenu(view);
-//            }
-//        });
+        btn_imagen.setOnClickListener(new View.OnClickListener() {
+          @Override
+           public void onClick(View view) {
+               showPopupMenu(view);
+           }
+        });
         btn_editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String nombres = nombre.getText().toString();
                 String apellidos = apellido.getText().toString();
                 String correos =correo.getText().toString();
+                Bitmap bitmap = ((BitmapDrawable) images.getDrawable()).getBitmap();
                 new UploadFileTask().execute(nombres, apellidos, correos, bitmap);
             }
         });
@@ -171,8 +164,6 @@ public class EditPerfilUser extends Fragment {
                 }, error -> {
             // Error
         }) {
-
-
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -312,35 +303,33 @@ public class EditPerfilUser extends Fragment {
                 .addFormDataPart("last_name", apellido)
                 .addFormDataPart("email", correo);
 
-        // add the image file to the request body
         if (bitmap != null) {
             // convert the Bitmap to a byte array
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             byte[] byteArray = stream.toByteArray();
 
-            // add the byte array as a file to the request body
-            requestBodyBuilder.addFormDataPart("foto_de_perfil", "imagen.jpg",
-                    RequestBody.create(MediaType.parse("image/jpeg"), byteArray));
+            // add the byte array as a new form data part
+            RequestBody imageBody = RequestBody.create(MediaType.parse("image/jpeg"), byteArray);
+            requestBodyBuilder.addFormDataPart("foto_de_perfil", "imagen.jpg", imageBody);
         }
 
         RequestBody requestBody = requestBodyBuilder.build();
 
-        // create the request object
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .url("https://www.api.katiosca.com/perfiles/personal")
                 .header("Authorization", "Token " + tokenManager.getAuthToken())
                 .patch(requestBody)
                 .build();
 
-        // execute the request and handle the response
+
         Response response = client.newCall(request).execute();
         if (response.isSuccessful()) {
             String responseBody = response.body().string();
             JSONObject jsonObject = new JSONObject(responseBody);
-            // handle the response data here
+
         } else {
-            // handle the error here
+
         }
     }
 }

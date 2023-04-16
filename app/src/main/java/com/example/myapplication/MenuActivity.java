@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -33,6 +34,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.databinding.ActivityMenuBinding;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +52,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMenuBinding binding;
     private FloatingActionButton btnCrearGrupo;
-
+    ImageView foto;
     TextView nombre, correo;
     TokenManager tokenManager;
 
@@ -59,7 +61,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         binding = ActivityMenuBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        foto = (ImageView) findViewById(R.id.foto_perfil);
         nombre = (TextView) findViewById(R.id.idUsuario);
         correo = (TextView) findViewById(R.id.usuarioCorreo);
         tokenManager = new TokenManager(this);
@@ -110,9 +112,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                         JSONObject usuario = data.getJSONObject("usuario");
                         nombre.setText(usuario.getString("first_name") + " " + usuario.getString("last_name"));
                         correo.setText(usuario.getString("email"));
+                        if (data.getString("foto_de_perfil") != "null"){
+                            Picasso.get().load("https://www.api.katiosca.com" + data.getString("foto_de_perfil")).into(foto);
+                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
                 }, error -> {
             // Handle error
         }) {
