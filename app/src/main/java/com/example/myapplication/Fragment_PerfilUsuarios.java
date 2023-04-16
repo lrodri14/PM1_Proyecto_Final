@@ -126,7 +126,6 @@ public class Fragment_PerfilUsuarios extends Fragment {
         JSONObject requestBody = new JSONObject();
 
         try {
-            System.out.println(userId);
             requestBody.put("usuario_seguido", userId);
         } catch (JSONException e) {
             e.printStackTrace();

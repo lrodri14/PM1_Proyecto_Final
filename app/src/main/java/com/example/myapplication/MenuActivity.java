@@ -85,23 +85,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         ActionBar actionBar = getSupportActionBar();
-// Establecemos el icono en la ActionBar
+        // Establecemos el icono en la ActionBar
         actionBar.setIcon(R.drawable.uth_share_logo2);
         actionBar.setDisplayShowHomeEnabled(true);
-
-
-
-
-
-        /*setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://api.katiosca.com/perfiles/personal";
