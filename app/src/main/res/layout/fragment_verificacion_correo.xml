@@ -127,16 +127,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="40dp"
         android:fontFamily="@font/asap_semibold"
         android:text="Para completar la verificación de tu cuenta"
         android:textColor="@color/verde_oscuro"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelCorreo" />
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <TextView
         android:id="@+id/textView16"
@@ -146,41 +145,12 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
         android:fontFamily="@font/asap_semibold"
-        android:text="Te hemos enviado un código de verificación al"
+        android:text="Te hemos enviado un código de verificación a tu correo"
         android:textColor="@color/verde_oscuro"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="41dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/asap_semibold"
-        android:text="correo "
-        android:textColor="@color/verde_oscuro"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
-
-    <TextView
-        android:id="@+id/labelCorreo"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="40dp"
-        android:fontFamily="@font/asap_semibold"
-        android:text="correo@gmail.com"
-        android:textColor="@color/verde_oscuro"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

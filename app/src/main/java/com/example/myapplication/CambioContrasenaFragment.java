@@ -13,10 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -29,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,15 +51,15 @@ public class CambioContrasenaFragment extends Fragment {
     boolean verPass = false;
     TokenManager tokenManager;
 
-     /*  private class UploadFileTask extends AsyncTask<Object, Void, Void> {
+     private class UploadFileTask extends AsyncTask<Object, Void, Void> {
 
      protected Void doInBackground(Object... objects) {
-            String nombre = (String) objects[0];
-            String apellido = (String) objects[1];
-            String correo = (String) objects[2];
+            String actual = (String) objects[0];
+            String nueva = (String) objects[1];
+            String nueva_conf = (String) objects[2];
 
             try {
-                editarPerfil(nombre, apellido, correo);
+                editarPerfil(actual, nueva, nueva_conf);
                 String nombreFragment = "perfiluser";
                 Intent intent = new Intent(getContext(), ViewActivity.class);
                 intent.putExtra("nombreFragment", nombreFragment);
@@ -65,7 +69,7 @@ public class CambioContrasenaFragment extends Fragment {
             }
             return null;
         }
-    }*/
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,8 +90,8 @@ public class CambioContrasenaFragment extends Fragment {
             public void onClick(View v) {
                 String actual = contra1.getText().toString();
                 String nueva = contra2.getText().toString();
-                String confirnew=contra3.getText().toString();
-            //    new UploadFileTask().execute(actual, nueva, confirnew);
+                String confirnew = contra3.getText().toString();
+                new UploadFileTask().execute(actual, nueva, confirnew);
             }
         });
         btnVerPass1.setOnClickListener(new View.OnClickListener() {
@@ -150,40 +154,19 @@ public class CambioContrasenaFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (validateLoginFields()) {
-                    String nombreFragment = "perfiluser";
-                    Intent intent = new Intent(getContext(), ViewActivity.class);
-                    intent.putExtra("nombreFragment", nombreFragment);
-                    startActivity(intent);
+                    String actual = contra1.getText().toString();
+                    String nueva = contra2.getText().toString();
+                    String confirnew = contra3.getText().toString();
+                    try {
+                        editarPerfil(actual, nueva, confirnew);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = "https://api.katiosca.com/perfiles/personal";
-        JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null,
-                response -> {
-                    try {
-                        JSONObject data = response.getJSONObject("data");
-                        JSONObject user = data.getJSONObject("usuario");
-                        contra1.setText(user.getString("password"));
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, error -> {
-            // Error
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
-                return headers;
-            }
-        };
-
-        queue.add(request);
-
-
 
         return view;
     }
@@ -213,33 +196,44 @@ public class CambioContrasenaFragment extends Fragment {
 
         return true;
     }
-  /*  private void editarPerfil(String actual, String nueva, String confirnew) throws IOException, JSONException {
-        OkHttpClient client = new OkHttpClient();
+    private void editarPerfil(String actual, String nueva, String confirnew) throws IOException, JSONException {
+        String url = "https://www.api.katiosca.com/auth/cambiar_contra/";
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
-        // create a MultipartBody.Builder to build the request body
-        MultipartBody.Builder requestBodyBuilder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("old_password", actual)
-                .addFormDataPart("new_password1", nueva)
-                .addFormDataPart("new_password2", confirnew);
+        tokenManager = new TokenManager(getContext());
 
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("old_password", actual);
+            jsonObject.put("new_password1", nueva);
+            jsonObject.put("new_password2", confirnew);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                response -> {
+                    Toast.makeText(getActivity(), "Contraseña actualizada con éxito", Toast.LENGTH_SHORT).show();
+                    String nombreFragment = "EditPerfilUser";
+                    Intent intent = new Intent(getContext(), ViewActivity.class);
+                    intent.putExtra("nombreFragment", nombreFragment);
+                    startActivity(intent);
+                },
+                error -> {
+                    Toast.makeText(getActivity(), "Error en la actualizacion de contraseña", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Token " + tokenManager.getAuthToken());
+                return headers;
+            }
+        };
 
-
-        okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://www.api.katiosca.com/auth/cambiar_contra/")
-                .header("Authorization", "Token " + tokenManager.getAuthToken())
-                .build();
-
-
-        Response response = client.newCall(request).execute();
-        if (response.isSuccessful()) {
-            String responseBody = response.body().string();
-            JSONObject jsonObject = new JSONObject(responseBody);
-
-        } else {
-
-        }*/
+        requestQueue.add(jsonObjectRequest);
     }
+
+
+}
 
 

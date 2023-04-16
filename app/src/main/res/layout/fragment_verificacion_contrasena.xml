@@ -10,37 +10,6 @@
     android:padding="16dp"
     tools:context=".VerificacionContrasenaFragment">
 
-    <TextView
-        android:id="@+id/btnReenviarCod"
-        android:layout_width="match_parent"
-        android:layout_height="19dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="40dp"
-        android:fontFamily="@font/asap_semibold"
-        android:text="Pulsa aquí para reenviar el código"
-        android:textAlignment="center"
-        android:textColor="@color/verde_oscuro"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView23" />
-
-    <TextView
-        android:id="@+id/textView23"
-        android:layout_width="match_parent"
-        android:layout_height="19dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="40dp"
-        android:fontFamily="@font/asap_semibold"
-        android:text="¿No has recibido nada?"
-        android:textAlignment="center"
-        android:textColor="@color/gris_claro2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEnviar" />
-
     <Button
         android:id="@+id/btnEnviar"
         android:layout_width="match_parent"
@@ -100,14 +69,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="40dp"
         android:fontFamily="@font/asap_semibold"
         android:text="por favor, ingrese el código de verificación de 6"
         android:textColor="@color/verde_oscuro"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.968"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
@@ -116,16 +85,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:fontFamily="@font/asap_semibold"
         android:text="Para completar el cambio de contraseña"
         android:textColor="@color/verde_oscuro"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelCorreo" />
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <TextView
         android:id="@+id/textView16"
@@ -135,42 +103,13 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
         android:fontFamily="@font/asap_semibold"
-        android:text="Te hemos enviado un código de verificación al"
+        android:text="Te hemos enviado un código de verificación al correo"
         android:textColor="@color/verde_oscuro"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="41dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/asap_semibold"
-        android:text="correo "
-        android:textColor="@color/verde_oscuro"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
-
-    <TextView
-        android:id="@+id/labelCorreo"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="40dp"
-        android:fontFamily="@font/asap_semibold"
-        android:text="correo@gmail.com"
-        android:textColor="@color/verde_oscuro"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <ImageView
         android:id="@+id/imageView2"
